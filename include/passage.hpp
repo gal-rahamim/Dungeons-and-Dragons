@@ -3,10 +3,11 @@
 
 #include "i_passage.hpp"
 #include "common.hpp"
+#include "key.hpp"
 
 namespace d_d {
 
-class Passage : public IPassage, advcpp::UnCopyable {
+class Passage : public IPassage {
 public:
     enum LockState {
         LOCK_STATE_LOCKED,
@@ -33,6 +34,8 @@ public:
     void Close(std::string& a_output);
 
 private:
+    std::shared_ptr<IRoom> m_room1;
+    std::shared_ptr<IRoom> m_room2;
     Key m_key;
     DoorState m_door_state;
     LockState m_lock_state;
