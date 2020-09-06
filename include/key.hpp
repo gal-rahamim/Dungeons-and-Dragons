@@ -2,30 +2,29 @@
 #define KEY_HPP
 
 #include <string>
+#include "i_object.hpp"
 
 namespace d_d {
 
-class Key {
+class Key : public IObject {
 public:
-    Key();
-    Key(const std::string& a_name);
-
+    Key(const std::string& a_name = "");
+    virtual void Describe(std::string& a_description) const;
     bool operator==(const Key& a_other) const;
-private:
-    std::string m_name;
 };
 
-inline Key::Key()
-: m_name("")
-{}
-
 inline Key::Key(const std::string& a_name)
-: m_name(a_name)
+: IObject(a_name)
 {}
 
 inline bool Key::operator==(const Key& a_other) const
 {
-    return m_name == a_other.m_name;
+    return Name() == a_other.Name();
+}
+
+inline void Key::Describe(std::string& a_description) const
+{
+    a_description = "Key name: " + Name();
 }
 
 } //d_d
