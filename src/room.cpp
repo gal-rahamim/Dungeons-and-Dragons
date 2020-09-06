@@ -11,13 +11,27 @@ Room::Room(std::string a_name)
     
 }
 
-void Room::InitRoom(const std::vector<IObject::ObjectPtr>& a_objects, const std::vector<std::shared_ptr<IPassage>>& a_passages)
+void Room::InitRoom(const std::vector<IObject::ObjectPtr>& a_objects,
+                    const std::vector<std::pair<Direction, std::shared_ptr<IPassage> > >& a_passages)
 {
-    m_passages = a_passages;
+    std::for_each(a_passages.begin(), a_passages.end(), [&](auto psg)
+    {
+        m_passages.insert(psg);
+    });
     std::for_each(a_objects.begin(), a_objects.end(), [&](auto obj)
     {
         m_objects.insert(std::make_pair(obj->Name(), obj));
     });
+}
+
+void Room::Move(Direction a_direction, std::shared_ptr<IPassage>& a_passage)
+{
+    auto res = m_passages.find(a_direction);
+    if(res == m_passages.end()) {
+        a_passage = nullptr;
+        return;
+    }
+    a_passage = res->second;
 }
 
 void Room::Describe(std::string& a_description) const
