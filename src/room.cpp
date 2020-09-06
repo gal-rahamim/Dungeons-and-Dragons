@@ -37,7 +37,13 @@ void Room::Move(Direction a_direction, std::shared_ptr<IPassage>& a_passage)
 void Room::Describe(std::string& a_description) const
 {
     a_description = "This is " + Name() + "\nIn this room there are " + std::to_string(m_objects.size()) + " objects"
-                    + " and " + std::to_string(m_passages.size()) + " passages";
+                    + " and " + std::to_string(m_passages.size()) + " passages\n";
+    std::for_each(m_objects.begin(), m_objects.end(), [&](auto obj)
+    {
+        std::string objDescription;
+        obj.second->Describe(objDescription);
+        a_description += objDescription + '\n';
+    });
 }
 
 std::shared_ptr<IObject> Room::GetObject(const std::string& a_objectName, std::string& a_output)
