@@ -16,7 +16,7 @@ public:
 
     virtual void Describe(std::string& a_description) const;
     virtual std::shared_ptr<IObject> GetObject(const std::string& a_objectName, std::string& a_output);
-    virtual void PlaceObject(IObject::ObjectPtr a_object, std::string& a_output);
+    virtual void PlaceObject(const IObject::ObjectPtr& a_object, std::string& a_output);
     // virtual void Enter(std::shared_ptr<Player> a_player);
     // virtual std::shared_ptr<IRoom> Exit(std::shared_ptr<Player> a_player, std::shared_ptr<IPassage> a_passage);
     // virtual std::string Name() const;

@@ -16,7 +16,7 @@ public:
 public:
     virtual ~IPassage();
     virtual void Describe(std::string& a_description) const = 0;
-    virtual void Pass(std::shared_ptr<IRoom> a_from, std::shared_ptr<IRoom> a_to, std::string& a_output) const = 0;
+    virtual void Pass(const std::shared_ptr<IRoom>& a_from, std::shared_ptr<IRoom>& a_to, std::string& a_output) const = 0;
 
 };
 

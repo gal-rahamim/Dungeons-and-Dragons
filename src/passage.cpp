@@ -3,7 +3,7 @@
 #include "i_room.hpp"
 namespace d_d {
 
-Passage::Passage(std::shared_ptr<IRoom> a_room1, std::shared_ptr<IRoom> a_room2
+Passage::Passage(const std::shared_ptr<IRoom>& a_room1, const std::shared_ptr<IRoom>& a_room2
     , DoorState a_door_state, LockState a_lock_state, const Key& a_key)
 : m_room1(a_room1)
 , m_room2(a_room2)
@@ -11,27 +11,27 @@ Passage::Passage(std::shared_ptr<IRoom> a_room1, std::shared_ptr<IRoom> a_room2
 , m_door_state(a_door_state)
 , m_lock_state(a_lock_state)
 {
-    // assert(m_door_state == DOOR_STATE_OPEN && m_lock_state != LOCK_STATE_LOCKED);
-    // assert(m_door_state == DOOR_STATE_NODOOR && m_lock_state == LOCK_STATE_NOLOCK);
+    assert(!(m_door_state != DOOR_STATE_CLOSED && m_lock_state == LOCK_STATE_LOCKED));
+    assert(!(m_door_state == DOOR_STATE_NODOOR && m_lock_state != LOCK_STATE_NOLOCK));
 }
 
 void Passage::Describe(std::string& a_description) const
 {
-    a_description = "This passage connects between " + m_room1->Name() + "and " + m_room2->Name();
+    a_description = "This passage connects between " + m_room1->Name() + " and " + m_room2->Name();
     a_description += m_door_state != DOOR_STATE_NODOOR ? m_door_state == DOOR_STATE_CLOSED ? "\nThe door is closed" : "\nThe door is open" : "\nPassage is clear";
     a_description += m_lock_state != LOCK_STATE_NOLOCK ? m_lock_state == LOCK_STATE_LOCKED ? "\nThe door is locked" : "\nThe door is not locked" : "";
 }
 
-void Passage::Pass(std::shared_ptr<IRoom> a_from, std::shared_ptr<IRoom> a_to, std::string& a_output) const
+void Passage::Pass(const std::shared_ptr<IRoom>& a_from, std::shared_ptr<IRoom>& a_to, std::string& a_output) const
 {
-    assert(a_from && a_to);
+    assert(a_from);
     if(m_door_state == DOOR_STATE_CLOSED){
         a_output = "Can't pass the door is closed";
         a_to = nullptr;
         return;
     }
     a_to = a_from == m_room1 ? m_room2 : m_room1;
-    a_output = "Passing from " + a_from->Name() + "to " + a_to->Name() + "";
+    a_output = "Passing from " + a_from->Name() + " to " + a_to->Name();
 }
 
 void Passage::Lock(const Key& a_key, std::string& a_output)

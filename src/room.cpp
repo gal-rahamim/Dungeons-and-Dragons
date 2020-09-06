@@ -22,7 +22,8 @@ void Room::InitRoom(const std::vector<IObject::ObjectPtr>& a_objects, const std:
 
 void Room::Describe(std::string& a_description) const
 {
-
+    a_description = "This is " + Name() + "\nIn this room there are " + std::to_string(m_objects.size()) + " objects"
+                    + " and " + std::to_string(m_passages.size()) + " passages";
 }
 
 std::shared_ptr<IObject> Room::GetObject(const std::string& a_objectName, std::string& a_output)
@@ -39,15 +40,16 @@ std::shared_ptr<IObject> Room::GetObject(const std::string& a_objectName, std::s
     }
 }
 
-void Room::PlaceObject(IObject::ObjectPtr a_object, std::string& a_output)
+void Room::PlaceObject(const IObject::ObjectPtr& a_object, std::string& a_output)
 {
-
+    if(!a_object) {
+        a_output = "No object to be placed";
+        return;
+    }
+    m_objects.insert(std::make_pair(a_object->Name(), a_object));
+    a_output = a_object->Name() + " has been placed in the room";
 }
 //void Enter(std::shared_ptr<Player> a_player);
 //std::shared_ptr<IRoom> Exit(std::shared_ptr<Player> a_player, std::shared_ptr<IPassage> a_passage);
-// std::string Room::Name() const
-// {
-//     return m_name;
-// }
 
 } //d_d
