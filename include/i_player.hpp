@@ -19,8 +19,12 @@ public:
     virtual void Close(std::string& a_out) = 0;
     virtual void Lock(std::string& a_out) = 0;
     virtual void UnLock(std::string& a_out) = 0;
+    virtual void Where(std::string& a_out) = 0;
+    virtual void Look(std::string& a_out) = 0;
     virtual const std::string& Name() const = 0;
 };
+
+inline IPlayer::~IPlayer(){}
 
 } //d_d
 

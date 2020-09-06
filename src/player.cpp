@@ -17,19 +17,26 @@ Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_starti
 
 static std::string directionToString(IRoom::Direction a_direction)
 {
+    std::string ret;
     switch (a_direction)
     {
     case IRoom::NORTH :
-        return "North";
+        ret = "North";
+        break;
     case IRoom::SOUTH :
-        return "South";
+        ret = "South";
+        break;
     case IRoom::EAST :
-        return "East";
+        ret = "East";
+        break;
     case IRoom::WEST :
-        return "West";
+        ret = "West";
+        break;
     default:
         break;
     }
+
+    return ret;
 }
 
 static void reverseDirection(IRoom::Direction& a_direction)
@@ -121,11 +128,13 @@ void Player::Backward(std::string& a_out)
 void Player::TurnRight(std::string& a_out)
 {
     right90(m_direction);
+    a_out = "You are now facing: " + directionToString(m_direction);
 }
 
 void Player::TurnLeft(std::string& a_out)
 {
     left90(m_direction);
+    a_out = "You are now facing: " + directionToString(m_direction);
 }
 
 void Player::Take(const std::string& a_objectName, std::string& a_out)
@@ -145,6 +154,12 @@ void Player::Take(const std::string& a_objectName, std::string& a_out)
         m_sword = sword;
         return;
     }
+    std::shared_ptr<Key> key = std::dynamic_pointer_cast<Key>(obj);
+    if(key) {
+        a_out = getOutput + "\nInserting key to chain";
+        m_keys.push_back(key);
+        return;
+    }
 }
 
 void Player::Fight(const std::string& a_name, std::string& a_out)
@@ -156,7 +171,7 @@ void Player::Describe(std::string& a_out)
 {
     std::string swordDescription;
     m_sword->Describe(swordDescription);
-    a_out = Name() + ":\nLife: " + std::to_string(m_life) + "\nMoney:" + std::to_string(m_money) + "\n" + swordDescription;
+    a_out = Name() + ":\nLife: " + std::to_string(m_life) + "\nMoney: " + std::to_string(m_money) + "\nSword:\n" + swordDescription;
 }
 
 void Player::Open(std::string& a_out)
@@ -209,6 +224,16 @@ void Player::UnLock(std::string& a_out)
         return;
     }
     a_out = "You have reached a wall";    
+}
+
+void Player::Where(std::string& a_out)
+{
+    a_out = m_location->Name();
+}
+
+void Player::Look(std::string& a_out)
+{
+    m_location->Describe(a_out);
 }
 
 const std::string& Player::Name() const

@@ -25,6 +25,8 @@ public:
     virtual void Close(std::string& a_out);
     virtual void Lock(std::string& a_out);
     virtual void UnLock(std::string& a_out);
+    virtual void Where(std::string& a_out);
+    virtual void Look(std::string& a_out);
     virtual const std::string& Name() const;
 
 private:
@@ -32,7 +34,7 @@ private:
     std::shared_ptr<IRoom> m_location;
     std::shared_ptr<ISword> m_sword;
     // std::shared_ptr<IShield> m_shield;
-    std::vector<Key> m_keys;
+    std::vector<std::shared_ptr<Key> > m_keys;
     IRoom::Direction m_direction;
     int m_life;
     int m_money;
