@@ -23,8 +23,8 @@ public:
     virtual std::shared_ptr<IPlayer> Exit(const std::string& a_playerName);
 
 private:
-    std::unordered_multimap<std::string, IObject::ObjectPtr> m_objects;
-    std::unordered_multimap<Direction, std::shared_ptr<IPassage> > m_passages;
+    std::unordered_map<std::string, IObject::ObjectPtr> m_objects;
+    std::unordered_map<Direction, std::shared_ptr<IPassage> > m_passages;
     std::unordered_map<std::string, std::shared_ptr<IPlayer> > m_players;
 };
 
