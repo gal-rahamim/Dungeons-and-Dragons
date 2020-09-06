@@ -112,6 +112,7 @@ void Player::Forward(std::string& a_out)
     }
     std::shared_ptr<IRoom> destRoom;
     if(passage->Pass(m_location, destRoom, a_out)) {
+        destRoom->Enter(m_location->Exit(m_name));
         m_location = destRoom;
         return;
     }
