@@ -2,7 +2,7 @@
 TARGET = main
 
 # All .c files in this directory are my sources
-SOURCES = main.cpp $(SRC_DIR)passage.cpp $(SRC_DIR)room.cpp $(SRC_DIR)i_object.cpp $(SRC_DIR)sword.cpp
+SOURCES = main.cpp $(SRC_DIR)passage.cpp $(SRC_DIR)room.cpp $(SRC_DIR)i_object.cpp $(SRC_DIR)i_sword.cpp
 
 #SOURCES += $(SRC_DIR)thread_pool.cpp $(SRC_DIR)thread_group.cpp $(SRC_DIR)semaphore.cpp $(SRC_DIR)event_distributor_thread_pool.cpp
 

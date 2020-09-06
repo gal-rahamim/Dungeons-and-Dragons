@@ -3,6 +3,7 @@
 #include "room.hpp"
 #include "passage.hpp"
 #include "key.hpp"
+#include "i_sword.hpp"
 #include "sword.hpp"
 
 using namespace std;
@@ -17,7 +18,7 @@ int main()
     shared_ptr<Room> r3(new Room("room c"));
     Key k("cool key");
     shared_ptr<Passage> p1(new Passage(r1, r2, Passage::DOOR_STATE_CLOSED, Passage::LOCK_STATE_LOCKED, k));
-    vector<IPassage::PassagePtr> passages({p1, shared_ptr<Passage>(new Passage(r1, r3))});                                        
+    vector<pair<Room::Direction, IPassage::PassagePtr> > passages({make_pair(Room::NORTH,p1), make_pair(Room::SOUTH, shared_ptr<Passage>(new Passage(r1, r3)))});                                        
     r1->InitRoom(swords, passages);
     string out;
     r1->Describe(out);
