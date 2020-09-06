@@ -24,19 +24,19 @@ public:
 public:
     Passage(const std::shared_ptr<IRoom>& a_room1, const std::shared_ptr<IRoom>& a_room2
         , DoorState a_door_state = DOOR_STATE_NODOOR, LockState a_lock_state = LOCK_STATE_NOLOCK
-        , const Key& a_key = Key());
+        , const std::shared_ptr<Key>& a_key = std::shared_ptr<Key>(new Key()));
 
     virtual void Describe(std::string& a_description) const;
     virtual bool Pass(const std::shared_ptr<IRoom>& a_from, std::shared_ptr<IRoom>& a_to, std::string& a_output) const;
-    virtual bool Lock(const Key& a_key, std::string& a_output);
-    virtual bool UnLock(const Key& a_key, std::string& a_output);
+    virtual bool Lock(const std::shared_ptr<Key>& a_key, std::string& a_output);
+    virtual bool UnLock(const std::shared_ptr<Key>& a_key, std::string& a_output);
     virtual bool Open(std::string& a_output);
     virtual bool Close(std::string& a_output);
 
 private:
     std::shared_ptr<IRoom> m_room1;
     std::shared_ptr<IRoom> m_room2;
-    Key m_key;
+    std::shared_ptr<Key> m_key;
     DoorState m_door_state;
     LockState m_lock_state;
 };

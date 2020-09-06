@@ -4,7 +4,7 @@
 namespace d_d {
 
 Passage::Passage(const std::shared_ptr<IRoom>& a_room1, const std::shared_ptr<IRoom>& a_room2
-    , DoorState a_door_state, LockState a_lock_state, const Key& a_key)
+    , DoorState a_door_state, LockState a_lock_state, const std::shared_ptr<Key>& a_key)
 : m_room1(a_room1)
 , m_room2(a_room2)
 , m_key(a_key)
@@ -35,7 +35,7 @@ bool Passage::Pass(const std::shared_ptr<IRoom>& a_from, std::shared_ptr<IRoom>&
     return true;
 }
 
-bool Passage::Lock(const Key& a_key, std::string& a_output)
+bool Passage::Lock(const std::shared_ptr<Key>& a_key, std::string& a_output)
 {
     if(m_door_state == DOOR_STATE_NODOOR) {
         a_output = "This passage as no door";
@@ -64,7 +64,7 @@ bool Passage::Lock(const Key& a_key, std::string& a_output)
     }
 }
 
-bool Passage::UnLock(const Key& a_key, std::string& a_output)
+bool Passage::UnLock(const std::shared_ptr<Key>& a_key, std::string& a_output)
 {
     if(m_door_state == DOOR_STATE_NODOOR) {
         a_output = "This passage as no door";
