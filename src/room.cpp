@@ -1,5 +1,6 @@
 #include <algorithm>
 #include "room.hpp"
+#include "i_player.hpp"
 
 namespace d_d {
 
@@ -7,8 +8,8 @@ Room::Room(std::string a_name)
 : IRoom(a_name)
 , m_objects()
 , m_passages()
-{
-    
+, m_players()
+{   
 }
 
 void Room::InitRoom(const std::vector<IObject::ObjectPtr>& a_objects,
@@ -37,12 +38,16 @@ void Room::Move(Direction a_direction, std::shared_ptr<IPassage>& a_passage)
 void Room::Describe(std::string& a_description) const
 {
     a_description = "This is " + Name() + "\nIn this room there are " + std::to_string(m_objects.size()) + " objects"
-                    + " and " + std::to_string(m_passages.size()) + " passages\n";
+                    + ", " + std::to_string(m_passages.size()) + " passages and " + std::to_string(m_players.size()) + " players";
     std::for_each(m_objects.begin(), m_objects.end(), [&](auto obj)
     {
         std::string objDescription;
         obj.second->Describe(objDescription);
-        a_description += objDescription + '\n';
+        a_description += "\n" + objDescription;
+    });
+    std::for_each(m_players.begin(), m_players.end(), [&](auto obj)
+    {
+        a_description += "\n" + obj.second->Name();
     });
 }
 
@@ -69,7 +74,17 @@ void Room::PlaceObject(const IObject::ObjectPtr& a_object, std::string& a_output
     m_objects.insert(std::make_pair(a_object->Name(), a_object));
     a_output = a_object->Name() + " has been placed in the room";
 }
-//void Enter(std::shared_ptr<Player> a_player);
-//std::shared_ptr<IRoom> Exit(std::shared_ptr<Player> a_player, std::shared_ptr<IPassage> a_passage);
+
+void Room::Enter(const std::shared_ptr<IPlayer>& a_player)
+{
+    m_players.insert(std::make_pair(a_player->Name(), a_player));
+}
+
+std::shared_ptr<IPlayer> Room::Exit(const std::string& a_playerName)
+{
+    auto res = m_players.find(a_playerName)->second;
+    m_players.erase(a_playerName);
+    return res;
+}
 
 } //d_d
