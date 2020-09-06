@@ -27,11 +27,11 @@ public:
         , const Key& a_key = Key());
 
     virtual void Describe(std::string& a_description) const;
-    virtual void Pass(const std::shared_ptr<IRoom>& a_from, std::shared_ptr<IRoom>& a_to, std::string& a_output) const;
-    void Lock(const Key& a_key, std::string& a_output);
-    void UnLock(const Key& a_key, std::string& a_output);
-    void Open(std::string& a_output);
-    void Close(std::string& a_output);
+    virtual bool Pass(const std::shared_ptr<IRoom>& a_from, std::shared_ptr<IRoom>& a_to, std::string& a_output) const;
+    virtual bool Lock(const Key& a_key, std::string& a_output);
+    virtual bool UnLock(const Key& a_key, std::string& a_output);
+    virtual bool Open(std::string& a_output);
+    virtual bool Close(std::string& a_output);
 
 private:
     std::shared_ptr<IRoom> m_room1;

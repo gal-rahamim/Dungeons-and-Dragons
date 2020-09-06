@@ -22,110 +22,111 @@ void Passage::Describe(std::string& a_description) const
     a_description += m_lock_state != LOCK_STATE_NOLOCK ? m_lock_state == LOCK_STATE_LOCKED ? "\nThe door is locked" : "\nThe door is not locked" : "";
 }
 
-void Passage::Pass(const std::shared_ptr<IRoom>& a_from, std::shared_ptr<IRoom>& a_to, std::string& a_output) const
+bool Passage::Pass(const std::shared_ptr<IRoom>& a_from, std::shared_ptr<IRoom>& a_to, std::string& a_output) const
 {
     assert(a_from);
     if(m_door_state == DOOR_STATE_CLOSED){
         a_output = "Can't pass the door is closed";
         a_to = nullptr;
-        return;
+        return false;
     }
     a_to = a_from == m_room1 ? m_room2 : m_room1;
     a_output = "Passing from " + a_from->Name() + " to " + a_to->Name();
+    return true;
 }
 
-void Passage::Lock(const Key& a_key, std::string& a_output)
+bool Passage::Lock(const Key& a_key, std::string& a_output)
 {
     if(m_door_state == DOOR_STATE_NODOOR) {
         a_output = "This passage as no door";
-        return;
+        return false;
     }
     if(m_door_state == DOOR_STATE_OPEN) {
         a_output = "Can't lock an open door";
-        return;
+        return false;
     }
     if(m_lock_state == LOCK_STATE_LOCKED) {
         a_output = "Door is already locked";
-        return;
+        return false;
     }
     if(m_lock_state == LOCK_STATE_NOLOCK) {
         a_output = "This door as no lock";
-        return;
+        return false;
     }
     if(m_key == a_key) {
         m_lock_state = LOCK_STATE_LOCKED;
         a_output = "You have locked the door";
-        return;
+        return true;
     }
     else {
         a_output = "Wrong Key, can't lock the door";
-        return;
+        return false;
     }
 }
 
-void Passage::UnLock(const Key& a_key, std::string& a_output)
+bool Passage::UnLock(const Key& a_key, std::string& a_output)
 {
     if(m_door_state == DOOR_STATE_NODOOR) {
         a_output = "This passage as no door";
-        return;
+        return false;
     }
     if(m_door_state == DOOR_STATE_OPEN) {
         a_output = "Can't unlock an open door";
-        return;
+        return false;
     }
     if(m_lock_state == LOCK_STATE_UNLOCKED) {
         a_output = "Door is already unlocked";
-        return;
+        return false;
     }
     if(m_lock_state == LOCK_STATE_NOLOCK) {
         a_output = "This door as no lock";
-        return;
+        return false;
     }
     if(m_key == a_key) {
         m_lock_state = LOCK_STATE_UNLOCKED;
         a_output = "You have unlocked the door";
-        return;
+        return true;
     }
     else {
         a_output = "Wrong Key, can't unlock the door";
-        return;
+        return false;
     }
 }
 
-void Passage::Open(std::string& a_output)
+bool Passage::Open(std::string& a_output)
 {
     if(m_door_state == DOOR_STATE_NODOOR) {
         a_output = "This passage as no door";
-        return;
+        return false;
     }
     if(m_door_state == DOOR_STATE_OPEN) {
         a_output = "The door is already open";
-        return;
+        return false;
     }
     if(m_lock_state == LOCK_STATE_LOCKED) {
         a_output = "Can't open, door is locked";
-        return;
+        return false;
     }
     else {
         m_door_state = DOOR_STATE_OPEN;
         a_output = "You have opened the door";
-        return;
+        return true;
     }
 }
-void Passage::Close(std::string& a_output)
+bool Passage::Close(std::string& a_output)
 {
     if(m_door_state == DOOR_STATE_NODOOR) {
         a_output = "This passage as no door";
-        return;
+        return false;
     }
     if(m_door_state == DOOR_STATE_CLOSED) {
         a_output = "The door is already closed";
-        return;
+        return false;
     }
     else {
         m_door_state = DOOR_STATE_CLOSED;
         a_output = "You have closed the door";
-        return;
+        return true;
     }
 }
 
