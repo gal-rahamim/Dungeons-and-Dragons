@@ -24,17 +24,15 @@ public:
     virtual void TurnLeft(std::string& a_out);
     virtual void Take(const std::string& a_objectName, std::string& a_out);
     virtual void Fight(const std::string& a_name, std::string& a_out);
-    virtual void Describe(std::string& a_out);
-    virtual void Open(std::string& a_out);
-    virtual void Close(std::string& a_out);
-    virtual void Lock(std::string& a_out);
-    virtual void UnLock(std::string& a_out);
-    virtual void Where(std::string& a_out);
-    virtual void Look(std::string& a_out);
-    virtual const std::string& Name() const;
+    virtual void Describe(std::string& a_out) const;
+    virtual void Open(std::string& a_out) const;
+    virtual void Close(std::string& a_out) const;
+    virtual void Lock(std::string& a_out) const;
+    virtual void UnLock(std::string& a_out) const;
+    virtual void Where(std::string& a_out) const;
+    virtual void Look(std::string& a_out) const;
 
 private:
-    std::string m_name;
     std::shared_ptr<IRoom> m_location;
     std::shared_ptr<ISword> m_sword;
     std::shared_ptr<IShield> m_shield;

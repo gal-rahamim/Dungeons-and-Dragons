@@ -11,7 +11,7 @@ public:
     virtual ~IFightable();
     virtual unsigned int GetDefense() const = 0;
     virtual unsigned int GetAttack() const = 0;
-    virtual void Describe(std::string& a_description) const = 0;
+    virtual void Describe(std::string& a_out) const = 0;
     virtual void Respawn() = 0;
 
     unsigned int GetLife() const;

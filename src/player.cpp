@@ -4,7 +4,7 @@
 
 namespace d_d {
 
-Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition, unsigned int a_life = 42, unsigned int a_money = 0)
+Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition, unsigned int a_life, unsigned int a_money)
 : IPlayer(a_name, a_life, a_money)
 , m_location(a_startingPosition)
 , m_sword(new Sword("niddle", 4))
@@ -111,7 +111,9 @@ void Player::Forward(std::string& a_out)
     }
     std::shared_ptr<IRoom> destRoom;
     if(passage->Pass(m_location, destRoom, a_out)) {
-        destRoom->Enter(m_location->Exit(m_name));
+        std::shared_ptr<IFightable> me;
+        m_location->Exit(Name(), me);
+        destRoom->Enter(me);
         m_location = destRoom;
         return;
     }
@@ -198,22 +200,33 @@ void Player::Fight(const std::string& a_name, std::string& a_out)
     beta = betaRange(rd);
     ReduceLife(alpha);
     target->ReduceLife(beta);
-    a_out = "A hit was made!" + "\nYou'r damage: " + std::to_string(alpha) + ", current life: " + std::to_string(GetLife())
+    a_out = "A hit was made!\nYou'r damage: " + std::to_string(alpha) + ", current life: " + std::to_string(GetLife())
             + "\nOpponent damage: " + std::to_string(beta) + ", opponent current life: " + std::to_string(target->GetLife());
     if(target->GetLife() == 0) {
         unsigned int shinyMoney = target->GetMoney();
         AddMoney(shinyMoney);
+        a_out += "\nYou've killed " + target->Name() + "\nYou've got " + std::to_string(shinyMoney) + " new coins!";
+        target->Respawn();
+    }
+    if(GetLife() == 0) {
+        target->AddMoney(GetMoney());
+        Respawn();
     }
 }
 
-void Player::Describe(std::string& a_out)
+void Player::Respawn()
+{
+
+}
+
+void Player::Describe(std::string& a_out) const
 {
     std::string swordDescription;
     m_sword->Describe(swordDescription);
     a_out = Name() + ":\nLife: " + std::to_string(GetLife()) + "\nMoney: " + std::to_string(GetMoney()) + "\nSword:\n" + swordDescription;
 }
 
-void Player::Open(std::string& a_out)
+void Player::Open(std::string& a_out) const
 {
     std::shared_ptr<IPassage> passage;
     m_location->Move(m_direction, passage);
@@ -224,7 +237,7 @@ void Player::Open(std::string& a_out)
     a_out = "You have reached a wall";
 }
 
-void Player::Close(std::string& a_out)
+void Player::Close(std::string& a_out) const
 {
     std::shared_ptr<IPassage> passage;
     m_location->Move(m_direction, passage);
@@ -235,7 +248,7 @@ void Player::Close(std::string& a_out)
     a_out = "You have reached a wall";
 }
 
-void Player::Lock(std::string& a_out)
+void Player::Lock(std::string& a_out) const
 {
     std::shared_ptr<IPassage> passage;
     m_location->Move(m_direction, passage);
@@ -250,7 +263,7 @@ void Player::Lock(std::string& a_out)
     a_out = "You have reached a wall";    
 }
 
-void Player::UnLock(std::string& a_out)
+void Player::UnLock(std::string& a_out) const
 {
     std::shared_ptr<IPassage> passage;
     m_location->Move(m_direction, passage);
@@ -265,19 +278,14 @@ void Player::UnLock(std::string& a_out)
     a_out = "You have reached a wall";    
 }
 
-void Player::Where(std::string& a_out)
+void Player::Where(std::string& a_out) const
 {
     a_out = m_location->Name();
 }
 
-void Player::Look(std::string& a_out)
+void Player::Look(std::string& a_out) const
 {
     m_location->Describe(a_out);
-}
-
-const std::string& Player::Name() const
-{
-    return m_name;
 }
 
 } //d_d
