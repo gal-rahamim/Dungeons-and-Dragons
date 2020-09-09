@@ -7,23 +7,23 @@ namespace d_d {
 
 class IShield : public IObject {
 public:
-    IShield(const std::string& a_name, int a_defense);
+    IShield(const std::string& a_name, unsigned int a_defense = 0);
     virtual ~IShield();
     virtual void Describe(std::string& a_description) const = 0;
-    int GetDefense() const;
+    unsigned int GetDefense() const;
 
 private:
-    int m_defense;
+    unsigned int m_defense;
 };
 
-inline IShield::IShield(const std::string& a_name, int a_defense)
+inline IShield::IShield(const std::string& a_name, unsigned int a_defense)
 : IObject(a_name)
 , m_defense(a_defense) 
 {}
 
 inline IShield::~IShield(){}
 
-inline int IShield::GetDefense() const
+inline unsigned int IShield::GetDefense() const
 {
     return m_defense;
 }

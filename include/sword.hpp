@@ -7,7 +7,7 @@ namespace d_d {
 
 class Sword : public ISword {
 public:
-    Sword(const std::string& a_name, int a_strength);
+    Sword(const std::string& a_name, unsigned int a_strength);
     virtual void Describe(std::string& a_description) const;
 };
 

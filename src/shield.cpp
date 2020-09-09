@@ -2,7 +2,7 @@
 
 namespace d_d {
 
-Shield::Shield(const std::string& a_name, int a_strength)
+Shield::Shield(const std::string& a_name, unsigned int a_strength)
 : IShield(a_name, a_strength)
 {}
 
