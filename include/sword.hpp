@@ -11,15 +11,6 @@ public:
     virtual void Describe(std::string& a_description) const;
 };
 
-inline Sword::Sword(const std::string& a_name, int a_strength)
-: ISword(a_name, a_strength)
-{}
-
-inline void Sword::Describe(std::string& a_description) const
-{
-    a_description = Name() + " sword\n" + "Strength = " + std::to_string(GetStrength()); 
-}
-
 } //d_d
 
 #endif //SWORD_HPP
