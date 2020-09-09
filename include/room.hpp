@@ -20,7 +20,7 @@ public:
     virtual void PlaceObject(const IObject::ObjectPtr& a_object, std::string& a_output);
     virtual void Move(Direction a_direction, std::shared_ptr<IPassage>& a_passage);
     virtual void Enter(const std::shared_ptr<IFightable>& a_player);
-    virtual std::shared_ptr<IFightable> Exit(const std::string& a_playerName);
+    virtual void Exit(const std::string& a_playerName, std::shared_ptr<IFightable>& a_playerPtr);
     virtual void GetFightable(const std::string& a_fightableName, std::shared_ptr<IFightable>& a_fightable) const;
 
 private:

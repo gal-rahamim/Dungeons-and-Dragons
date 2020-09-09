@@ -80,11 +80,14 @@ void Room::Enter(const std::shared_ptr<IFightable>& a_player)
     m_players.insert(std::make_pair(a_player->Name(), a_player));
 }
 
-std::shared_ptr<IFightable> Room::Exit(const std::string& a_playerName)
+void Room::Exit(const std::string& a_playerName, std::shared_ptr<IFightable>& a_playerPtr)
 {
-    auto res = m_players.find(a_playerName)->second;
+    auto res = m_players.find(a_playerName);
+    if(res == m_players.end()) {
+        return;
+    }
+    a_playerPtr = res->second;
     m_players.erase(a_playerName);
-    return res;
 }
 
 void Room::GetFightable(const std::string& a_fightableName, std::shared_ptr<IFightable>& a_fightable) const
