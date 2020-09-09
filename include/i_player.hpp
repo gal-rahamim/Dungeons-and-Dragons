@@ -2,12 +2,17 @@
 #define I_PLAYER_HPP
 
 #include <string>
+#include "i_fightable.hpp"
 
 namespace d_d {
 
-class IPlayer {
+class IPlayer : public IFightable {
 public:
+    IPlayer(const std::string& a_name, unsigned int a_life, unsigned int a_money);
     virtual ~IPlayer();
+    virtual unsigned int GetDefense() const = 0;
+    virtual unsigned int GetAttack() const = 0;
+    virtual void Respawn() = 0;
     virtual void Forward(std::string& a_out) = 0;
     virtual void Backward(std::string& a_out) = 0;
     virtual void TurnRight(std::string& a_out) = 0;
@@ -23,6 +28,10 @@ public:
     virtual void Look(std::string& a_out) = 0;
     virtual const std::string& Name() const = 0;
 };
+
+inline IPlayer::IPlayer(const std::string& a_name, unsigned int a_life, unsigned int a_money)
+: IFightable(a_name, a_life, a_money)
+{}
 
 inline IPlayer::~IPlayer(){}
 

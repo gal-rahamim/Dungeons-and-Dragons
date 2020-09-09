@@ -6,6 +6,7 @@
 #include "i_room.hpp"
 #include "i_sword.hpp"
 #include "i_passage.hpp"
+#include "i_shield.hpp"
 #include "common.hpp"
 #include "key.hpp"
 
@@ -13,7 +14,10 @@ namespace d_d {
 
 class Player : public IPlayer, advcpp::UnCopyable {
 public:
-    Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition);
+    Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition, unsigned int a_life = 42, unsigned int a_money = 0);
+    virtual unsigned int GetDefense() const;
+    virtual unsigned int GetAttack() const;
+    virtual void Respawn();
     virtual void Forward(std::string& a_out);
     virtual void Backward(std::string& a_out);
     virtual void TurnRight(std::string& a_out);
@@ -33,11 +37,9 @@ private:
     std::string m_name;
     std::shared_ptr<IRoom> m_location;
     std::shared_ptr<ISword> m_sword;
-    // std::shared_ptr<IShield> m_shield;
+    std::shared_ptr<IShield> m_shield;
     std::vector<std::shared_ptr<Key> > m_keys;
     IRoom::Direction m_direction;
-    int m_life;
-    int m_money;
 };
 
 } //d_d

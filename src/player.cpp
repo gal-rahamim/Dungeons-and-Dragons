@@ -1,17 +1,16 @@
+#include <random>
 #include "player.hpp"
 #include "sword.hpp"
 
 namespace d_d {
 
-Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition)
-: m_name(a_name)
+Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition, unsigned int a_life = 42, unsigned int a_money = 0)
+: IPlayer(a_name, a_life, a_money)
 , m_location(a_startingPosition)
 , m_sword(new Sword("niddle", 4))
-// m_shield;
+, m_shield()
 , m_keys()
 , m_direction(IRoom::NORTH)
-, m_life(42)
-, m_money(0)
 {
 }
 
@@ -148,11 +147,20 @@ void Player::Take(const std::string& a_objectName, std::string& a_out)
     }
     std::shared_ptr<ISword> sword = std::dynamic_pointer_cast<ISword>(obj);
     if(sword) {
-        a_out = "Swithing swords:\n" + getOutput + "\n";
+        a_out = "Switching swords:\n" + getOutput + "\n";
         std::string placeOutput;
         m_location->PlaceObject(m_sword, placeOutput);
         a_out += placeOutput;
         m_sword = sword;
+        return;
+    }
+    std::shared_ptr<IShield> shield = std::dynamic_pointer_cast<IShield>(obj);
+    if(shield) {
+        a_out = "Switching shields:\n" + getOutput + "\n";
+        std::string placeOutput;
+        m_location->PlaceObject(m_shield, placeOutput);
+        a_out += placeOutput;
+        m_shield = shield;
         return;
     }
     std::shared_ptr<Key> key = std::dynamic_pointer_cast<Key>(obj);
@@ -163,16 +171,46 @@ void Player::Take(const std::string& a_objectName, std::string& a_out)
     }
 }
 
+unsigned int Player::GetDefense() const
+{
+    return m_shield ? m_shield->GetDefense() : 0;
+}
+
+unsigned int Player::GetAttack() const
+{
+    return m_sword ? m_sword->GetStrength() : 0;
+}
+
 void Player::Fight(const std::string& a_name, std::string& a_out)
 {
-
+    std::shared_ptr<IFightable> target;
+    m_location->GetFightable(a_name, target);
+    if(!target) {
+        a_out = "No such victim was found in the room";
+        return;
+    }
+    unsigned int alpha = std::min((unsigned int)0, GetAttack() - target->GetDefense());
+    unsigned int beta = std::min((unsigned int)0, target->GetAttack()/3 - GetDefense());
+    std::uniform_int_distribution<int> alphaRange(alpha, alpha*2 + 10);
+    std::uniform_int_distribution<int> betaRange(beta, beta*1.2 + 4);
+    std::random_device rd;
+    alpha = alphaRange(rd);
+    beta = betaRange(rd);
+    ReduceLife(alpha);
+    target->ReduceLife(beta);
+    a_out = "A hit was made!" + "\nYou'r damage: " + std::to_string(alpha) + ", current life: " + std::to_string(GetLife())
+            + "\nOpponent damage: " + std::to_string(beta) + ", opponent current life: " + std::to_string(target->GetLife());
+    if(target->GetLife() == 0) {
+        unsigned int shinyMoney = target->GetMoney();
+        AddMoney(shinyMoney);
+    }
 }
 
 void Player::Describe(std::string& a_out)
 {
     std::string swordDescription;
     m_sword->Describe(swordDescription);
-    a_out = Name() + ":\nLife: " + std::to_string(m_life) + "\nMoney: " + std::to_string(m_money) + "\nSword:\n" + swordDescription;
+    a_out = Name() + ":\nLife: " + std::to_string(GetLife()) + "\nMoney: " + std::to_string(GetMoney()) + "\nSword:\n" + swordDescription;
 }
 
 void Player::Open(std::string& a_out)
