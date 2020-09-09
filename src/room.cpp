@@ -75,16 +75,22 @@ void Room::PlaceObject(const IObject::ObjectPtr& a_object, std::string& a_output
     a_output = a_object->Name() + " has been placed in the room";
 }
 
-void Room::Enter(const std::shared_ptr<IPlayer>& a_player)
+void Room::Enter(const std::shared_ptr<IFightable>& a_player)
 {
     m_players.insert(std::make_pair(a_player->Name(), a_player));
 }
 
-std::shared_ptr<IPlayer> Room::Exit(const std::string& a_playerName)
+std::shared_ptr<IFightable> Room::Exit(const std::string& a_playerName)
 {
     auto res = m_players.find(a_playerName)->second;
     m_players.erase(a_playerName);
     return res;
+}
+
+void Room::GetFightable(const std::string& a_fightableName, std::shared_ptr<IFightable>& a_fightable) const
+{
+    auto res = m_players.find(a_fightableName);
+    a_fightable = res == m_players.end() ? nullptr : res->second;
 }
 
 } //d_d
