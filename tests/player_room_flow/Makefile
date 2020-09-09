@@ -2,8 +2,8 @@
 TARGET = main
 
 # All .c files in this directory are my sources
-SOURCES = main.cpp $(SRC_DIR)passage.cpp $(SRC_DIR)room.cpp $(SRC_DIR)i_object.cpp $(SRC_DIR)i_sword.cpp
-SOURCES += $(SRC_DIR)player.cpp
+SOURCES = main.cpp $(SRC_DIR)passage.cpp $(SRC_DIR)room.cpp $(SRC_DIR)i_object.cpp $(SRC_DIR)sword.cpp
+SOURCES += $(SRC_DIR)player.cpp $(SRC_DIR)shield.cpp
 
 # Include directory
 INC_DIR = ../../include/
