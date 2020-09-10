@@ -1,9 +1,8 @@
-#include <thread>
 #include <chrono> 
 #include "dragon.hpp"
 namespace d_d {
 
-void waitNsecAndThenRespawn(std::shared_ptr<IFightable>& a_dragon, std::shared_ptr<IRoom>& a_location, unsigned int a_sec)
+void waitNsecAndThenRespawn(std::shared_ptr<IFightable> a_dragon, const std::shared_ptr<IRoom>& a_location, unsigned int a_sec)
 {
     std::this_thread::sleep_for(std::chrono::seconds(a_sec));
     a_location->Enter(a_dragon);
@@ -17,7 +16,13 @@ Dragon::Dragon(const std::string& a_name, const std::shared_ptr<IRoom>& a_starti
 , m_defense(a_defense)
 , m_respawn_sec(a_respawn_sec)
 , m_starting_money(a_money)
+, m_respwan_wait_thread()
 {}                
+
+Dragon::~Dragon()
+{
+    m_respwan_wait_thread->join();
+}
 
 unsigned int Dragon::GetDefense() const
 {
@@ -39,7 +44,7 @@ void Dragon::Respawn()
     std::shared_ptr<IFightable> me;
     m_starting_pos->Exit(Name(), me);
     SetMoney(m_starting_money);
-    std::thread(waitNsecAndThenRespawn, me, m_starting_pos, m_respawn_sec);
+    m_respwan_wait_thread = std::make_shared<std::thread>(waitNsecAndThenRespawn, me, std::ref(m_starting_pos), m_respawn_sec);
 }
 
 
