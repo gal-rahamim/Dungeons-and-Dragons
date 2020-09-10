@@ -5,7 +5,9 @@ namespace d_d {
 void waitNsecAndThenRespawn(std::shared_ptr<IFightable> a_dragon, const std::shared_ptr<IRoom>& a_location, unsigned int a_sec)
 {
     std::this_thread::sleep_for(std::chrono::seconds(a_sec));
-    a_location->Enter(a_dragon);
+    if(a_location){
+        a_location->Enter(a_dragon);
+    }
 }
 
 Dragon::Dragon(const std::string& a_name, const std::shared_ptr<IRoom>& a_starting_pos, unsigned int a_life, unsigned int a_money
