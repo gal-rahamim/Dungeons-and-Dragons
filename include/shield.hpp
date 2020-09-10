@@ -7,7 +7,7 @@ namespace d_d {
 
 class Shield : public IShield {
 public:
-    Shield(const std::string& a_name, unsigned int a_strength);
+    Shield(const std::string& a_name, const std::shared_ptr<IRoom>& a_start_pos, unsigned int a_respawn_sec, unsigned int a_strength);
     virtual void Describe(std::string& a_description) const;
 };
 

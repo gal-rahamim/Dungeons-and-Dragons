@@ -8,24 +8,10 @@ namespace d_d {
 
 class Key : public IObject {
 public:
-    Key(const std::string& a_name = "");
+    Key(const std::shared_ptr<IRoom>& a_start_pos = nullptr, const std::string& a_name = "", unsigned int a_respawn_sec = 20);
     virtual void Describe(std::string& a_description) const;
     bool operator==(const Key& a_other) const;
 };
-
-inline Key::Key(const std::string& a_name)
-: IObject(a_name)
-{}
-
-inline bool Key::operator==(const Key& a_other) const
-{
-    return Name() == a_other.Name();
-}
-
-inline void Key::Describe(std::string& a_description) const
-{
-    a_description = "Key name: " + Name();
-}
 
 } //d_d
 

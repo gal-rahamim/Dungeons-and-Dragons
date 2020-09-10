@@ -3,29 +3,29 @@
 
 #include <string>
 #include <memory>
+#include <thread>
 
 namespace d_d {
+
+class IRoom;
 
 class IObject {
 public:
     typedef std::shared_ptr<IObject> ObjectPtr;
 
 public:
-    IObject(const std::string& a_name);
+    IObject(const std::string& a_name, const std::shared_ptr<IRoom>& a_start_pos, unsigned int a_respawn_sec = 20);
     virtual ~IObject();
     virtual void Describe(std::string& a_description) const = 0;
+    void Respawn(std::shared_ptr<IObject>& a_self);
     const std::string& Name() const;
 
 private:
     std::string m_name;
+    const std::shared_ptr<IRoom> m_start_pos;
+    std::shared_ptr<std::thread> m_wait_respawn;
+    unsigned int m_respawn_sec;
 };
-
-inline IObject::IObject(const std::string& a_name)
-: m_name(a_name)
-{
-}
-
-inline IObject::~IObject() {}
 
 } //d_d
 
