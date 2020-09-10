@@ -4,21 +4,18 @@
 
 namespace d_d {
 
-std::shared_ptr<IRoom> Player::STARTING_POSITION;
-const unsigned int Player::STARTING_LIFE = 42;
-const unsigned int Player::STARTING_MONEY = 0;
-std::shared_ptr<ISword> Player::STARTING_SWORD;
-
-Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition)
-: IPlayer(a_name, STARTING_LIFE, STARTING_MONEY)
+Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition, unsigned int a_starting_life, unsigned int a_starting_money)
+: IPlayer(a_name, a_starting_life, a_starting_money)
 , m_location(a_startingPosition)
 , m_sword(new Sword("niddle", 4))
 , m_shield()
 , m_keys()
 , m_direction(IRoom::NORTH)
+, m_starting_position(a_startingPosition)
+, m_starting_sword(m_sword)
+, m_starting_life(a_starting_life)
+, m_starting_money(a_starting_money)
 {
-    STARTING_POSITION = m_location;
-    STARTING_SWORD = m_sword;
 }
 
 static std::string directionToString(IRoom::Direction a_direction)
@@ -228,18 +225,18 @@ void Player::Respawn()
     std::vector<std::shared_ptr<IObject> > dropping_objects(m_keys.begin(),m_keys.end());
     if(m_sword) {
         dropping_objects.push_back(m_sword);
-        m_sword = STARTING_SWORD;
+        m_sword = m_starting_sword;
     }
     if(m_shield) {
         dropping_objects.push_back(m_shield);
         m_shield = nullptr;
     }
     m_location->PlaceObjects(dropping_objects, out);
-    SetLife(STARTING_LIFE);
-    SetMoney(STARTING_MONEY);
+    SetLife(m_starting_life);
+    SetMoney(m_starting_money);
     std::shared_ptr<IFightable> me;
     m_location->Exit(Name(), me);
-    m_location = STARTING_POSITION;
+    m_location = m_starting_position;
     m_location->Enter(me);
 }
 
