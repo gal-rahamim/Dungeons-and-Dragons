@@ -59,7 +59,7 @@ void IFightable::AddLife(unsigned int a_life)
 
 void IFightable::ReduceLife(unsigned int a_life)
 {
-    m_life = std::max(a_life - a_life, (unsigned int)0);
+    m_life = a_life > m_life ? 0 : m_life - a_life;
 }
 
 } //d_d
