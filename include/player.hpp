@@ -14,7 +14,7 @@ namespace d_d {
 
 class Player : public IPlayer, advcpp::UnCopyable {
 public:
-    Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition, unsigned int a_life = 42, unsigned int a_money = 0);
+    Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition);
     virtual unsigned int GetDefense() const;
     virtual unsigned int GetAttack() const;
     virtual void Respawn();
@@ -31,6 +31,12 @@ public:
     virtual void UnLock(std::string& a_out) const;
     virtual void Where(std::string& a_out) const;
     virtual void Look(std::string& a_out) const;
+
+private:
+    static std::shared_ptr<IRoom> STARTING_POSITION;
+    static const unsigned int STARTING_LIFE;
+    static const unsigned int STARTING_MONEY;
+    static std::shared_ptr<ISword> STARTING_SWORD;
 
 private:
     std::shared_ptr<IRoom> m_location;
