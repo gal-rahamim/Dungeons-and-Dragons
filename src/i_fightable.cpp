@@ -32,6 +32,11 @@ void IFightable::SetLife(unsigned int a_newLife)
     m_life = a_newLife;
 }
 
+void IFightable::SetMoney(unsigned int a_newMoney)
+{
+    m_money = a_newMoney;
+}
+
 void IFightable::AddMoney(unsigned int a_money)
 {
     m_money = std::min(a_money+m_money, MAX_MONEY);

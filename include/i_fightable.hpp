@@ -17,6 +17,7 @@ public:
     unsigned int GetLife() const;
     unsigned int GetMoney() const;
     void SetLife(unsigned int a_newLife);
+    void SetMoney(unsigned int a_newMoney);
     void AddMoney(unsigned int a_money);
     void ReduceMoney(unsigned int a_money);
     void AddLife(unsigned int a_life);
