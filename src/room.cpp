@@ -75,6 +75,14 @@ void Room::PlaceObject(const IObject::ObjectPtr& a_object, std::string& a_output
     a_output = a_object->Name() + " has been placed in the room";
 }
 
+void Room::PlaceObjects(const std::vector<IObject::ObjectPtr>& a_objects, std::string& a_output)
+{
+    std::for_each(a_objects.begin(), a_objects.end(), [&](auto obj)
+    {
+        m_objects.insert(std::make_pair(obj->Name(), obj));
+    });
+}
+
 void Room::Enter(const std::shared_ptr<IFightable>& a_player)
 {
     m_players.insert(std::make_pair(a_player->Name(), a_player));

@@ -18,6 +18,7 @@ public:
     virtual void Describe(std::string& a_description) const;
     virtual std::shared_ptr<IObject> GetObject(const std::string& a_objectName, std::string& a_output);
     virtual void PlaceObject(const IObject::ObjectPtr& a_object, std::string& a_output);
+    virtual void PlaceObjects(const std::vector<IObject::ObjectPtr>& a_objects, std::string& a_output);
     virtual void Move(Direction a_direction, std::shared_ptr<IPassage>& a_passage);
     virtual void Enter(const std::shared_ptr<IFightable>& a_player);
     virtual void Exit(const std::string& a_playerName, std::shared_ptr<IFightable>& a_playerPtr);
