@@ -162,10 +162,12 @@ void Player::Take(const std::string& a_objectName, std::string& a_out)
     }
     std::shared_ptr<IShield> shield = std::dynamic_pointer_cast<IShield>(obj);
     if(shield) {
-        a_out = "Switching shields:\n" + getOutput + "\n";
-        std::string placeOutput;
-        m_location->PlaceObject(m_shield, placeOutput);
-        a_out += placeOutput;
+        if(m_shield) {
+            a_out = "Switching shields:\n" + getOutput + "\n";
+            std::string placeOutput;
+            m_location->PlaceObject(m_shield, placeOutput);
+            a_out += placeOutput;
+        }
         m_shield = shield;
         return;
     }
