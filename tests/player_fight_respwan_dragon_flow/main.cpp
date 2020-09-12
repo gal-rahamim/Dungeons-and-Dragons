@@ -17,7 +17,7 @@ int main()
     shared_ptr<Room> r1(new Room("room a"));
     shared_ptr<Room> r2(new Room("room b"));
     shared_ptr<Room> r3(new Room("room c"));
-    shared_ptr<Key> k(new Key(r1, "cool key"));
+    shared_ptr<Key> k(new Key("cool key", r1));
     vector<IObject::ObjectPtr> r1_objects({shared_ptr<Sword>(new Sword("blade", 4, r1, 20))
                                         , shared_ptr<Sword>(new Sword("cutycut", 6, r1, 20)), k});
     vector<IObject::ObjectPtr> r2_objects({shared_ptr<Sword>(new Sword("Slayer", 9, r2, 20))});                                        
