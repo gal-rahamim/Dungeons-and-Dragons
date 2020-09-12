@@ -2,7 +2,7 @@
 
 namespace d_d {
 
-Key::Key(const std::shared_ptr<IRoom>& a_start_pos, const std::string& a_name, unsigned int a_respawn_sec)
+Key::Key(const std::string& a_name ,const std::shared_ptr<IRoom>& a_start_pos, unsigned int a_respawn_sec)
 : IObject(a_name, a_start_pos, a_respawn_sec)
 {}
 
