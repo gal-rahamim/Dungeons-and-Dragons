@@ -13,6 +13,8 @@
 #include "passage_parser.hpp"
 #include "room_loader.hpp"
 #include "passage_loader.hpp"
+#include "dragon_loader.hpp"
+#include "dragon_parser.hpp"
 
 using namespace std;
 using namespace d_d;
@@ -21,9 +23,11 @@ int main()
 {
     shared_ptr<IPassageParser> pp = make_shared<PassageParser>();
     shared_ptr<IRoomParser> rp = make_shared<RoomParser>();
+    shared_ptr<IDragonParser> dp = make_shared<DragonParser>();
     shared_ptr<IPassageLoader> pl = make_shared<PassageLoader>(pp);
     shared_ptr<IRoomLoader> rl = make_shared<RoomLoader>(rp);
-    MapLoader ml(rl, pl);
+    shared_ptr<IFightableLoader> dl = make_shared<DragonLoader>(dp);
+    MapLoader ml(rl, pl, dl);
     vector<shared_ptr<IRoom>> rooms;
     ml.Load(rooms);
     string out;

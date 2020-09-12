@@ -6,6 +6,8 @@ SOURCES = main.cpp $(SRC_DIR)passage.cpp $(SRC_DIR)room.cpp $(SRC_DIR)i_object.c
 SOURCES += $(SRC_DIR)player.cpp $(SRC_DIR)shield.cpp $(SRC_DIR)i_fightable.cpp $(SRC_DIR)dragon.cpp $(SRC_DIR)key.cpp
 SOURCES += $(SRC_DIR)i_shield.cpp $(SRC_DIR)i_sword.cpp $(SRC_DIR)map_loader.cpp $(SRC_DIR)passage_loader.cpp
 SOURCES += $(SRC_DIR)passage_parser.cpp $(SRC_DIR)room_loader.cpp $(SRC_DIR)room_parser.cpp
+SOURCES += $(SRC_DIR)dragon_parser.cpp $(SRC_DIR)dragon_loader.cpp
+
 # Include directory
 INC_DIR = ../../include/
 SRC_DIR = ../../src/
