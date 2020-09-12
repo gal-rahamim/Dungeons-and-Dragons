@@ -66,6 +66,11 @@ std::shared_ptr<IObject> Room::GetObject(const std::string& a_objectName, std::s
     }
 }
 
+void Room::AddPassage(const std::pair<Direction, std::shared_ptr<IPassage>>& a_passage)
+{
+    m_passages.insert(a_passage);
+}
+
 void Room::PlaceObject(const IObject::ObjectPtr& a_object, std::string& a_output)
 {
     if(!a_object) {
