@@ -4,7 +4,7 @@
 namespace d_d {
 
 const unsigned int IFightable::MAX_MONEY = 1000;
-const unsigned int IFightable::MAX_LIFE = 142;
+const unsigned int IFightable::MAX_LIFE = 300;
 
 IFightable::IFightable(const std::string& a_name, unsigned int a_life, unsigned int a_money)
 : m_life(a_life)
