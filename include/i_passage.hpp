@@ -13,7 +13,18 @@ class IRoom;
 class IPassage {
 public:
     typedef std::shared_ptr<IPassage> PassagePtr;
+    enum LockState {
+        LOCK_STATE_LOCKED,
+        LOCK_STATE_UNLOCKED,
+        LOCK_STATE_NOLOCK
+    };
 
+    enum DoorState {
+        DOOR_STATE_CLOSED,
+        DOOR_STATE_OPEN,
+        DOOR_STATE_NODOOR
+    };
+    
 public:
     virtual ~IPassage();
     virtual void Describe(std::string& a_description) const = 0;
