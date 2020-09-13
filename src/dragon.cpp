@@ -45,6 +45,9 @@ void Dragon::Respawn()
 {
     std::shared_ptr<IFightable> me;
     m_starting_pos->Exit(Name(), me);
+    if(m_respawn_sec == 0) {
+        return;
+    }
     SetMoney(m_starting_money);
     m_respwan_wait_thread = std::make_shared<std::thread>(waitNsecAndThenRespawn, me, std::ref(m_starting_pos), m_respawn_sec);
 }
