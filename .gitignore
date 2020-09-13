@@ -9,7 +9,7 @@
 *.obj
 *.d
 *.txt
-*.log
+# *.log
 depends
 #*.dSym
 *.a
