@@ -26,6 +26,8 @@ public:
     virtual void UnLock(std::string& a_out) const = 0;
     virtual void Where(std::string& a_out) const = 0;
     virtual void Look(std::string& a_out) const = 0;
+    virtual void Call(const std::string& a_method, std::string& a_out) = 0;
+    virtual void Call(const std::string& a_method, const std::string& a_arg, std::string& a_out) = 0;
 };
 
 inline IPlayer::IPlayer(const std::string& a_name, unsigned int a_life, unsigned int a_money)

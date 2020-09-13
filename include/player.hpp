@@ -2,6 +2,7 @@
 #define PLAYER_HPP
 
 #include <vector>
+#include <unordered_map>
 #include "i_player.hpp"
 #include "i_room.hpp"
 #include "i_sword.hpp"
@@ -31,7 +32,16 @@ public:
     virtual void UnLock(std::string& a_out) const;
     virtual void Where(std::string& a_out) const;
     virtual void Look(std::string& a_out) const;
+    virtual void Call(const std::string& a_method, std::string& a_out);
+    virtual void Call(const std::string& a_method, const std::string& a_arg, std::string& a_out);
 
+private:
+    typedef void (Player::*MF_ONE_ARG)(std::string&);
+    typedef void (Player::*MF_ONE_ARG_CONST)(std::string&) const;
+    typedef void (Player::*MF_TWO_ARG)(const std::string&, std::string&);
+    static std::unordered_map<std::string, MF_ONE_ARG> s_mf_dict_one_arg;
+    static std::unordered_map<std::string, MF_ONE_ARG_CONST> s_mf_dict_one_arg_const;
+    static std::unordered_map<std::string, MF_TWO_ARG> s_mf_dict_two_arg;
 
 private:
     std::shared_ptr<IRoom> m_location;

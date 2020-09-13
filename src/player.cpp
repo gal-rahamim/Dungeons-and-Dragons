@@ -4,6 +4,10 @@
 
 namespace d_d {
 
+std::unordered_map<std::string, Player::MF_ONE_ARG> Player::s_mf_dict_one_arg;
+std::unordered_map<std::string, Player::MF_ONE_ARG_CONST> Player::s_mf_dict_one_arg_const;
+std::unordered_map<std::string, Player::MF_TWO_ARG> Player::s_mf_dict_two_arg;
+
 Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition, unsigned int a_starting_life, unsigned int a_starting_money)
 : IPlayer(a_name, a_starting_life, a_starting_money)
 , m_location(a_startingPosition)
@@ -16,6 +20,19 @@ Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_starti
 , m_starting_life(a_starting_life)
 , m_starting_money(a_starting_money)
 {
+    s_mf_dict_one_arg.insert(std::make_pair("Forward", &Player::Forward));
+    s_mf_dict_one_arg.insert(std::make_pair("Backward", &Player::Backward));
+    s_mf_dict_one_arg.insert(std::make_pair("TurnRight", &Player::TurnRight));
+    s_mf_dict_one_arg.insert(std::make_pair("TurnLeft", &Player::TurnLeft));
+    s_mf_dict_one_arg_const.insert(std::make_pair("Describe", &Player::Describe));
+    s_mf_dict_one_arg_const.insert(std::make_pair("Open", &Player::Open));
+    s_mf_dict_one_arg_const.insert(std::make_pair("Close", &Player::Close));
+    s_mf_dict_one_arg_const.insert(std::make_pair("Lock", &Player::Lock));
+    s_mf_dict_one_arg_const.insert(std::make_pair("UnLock", &Player::UnLock));
+    s_mf_dict_one_arg_const.insert(std::make_pair("Where", &Player::Where));
+    s_mf_dict_one_arg_const.insert(std::make_pair("Look", &Player::Look));
+    s_mf_dict_two_arg.insert(std::make_pair("Take", &Player::Take));
+    s_mf_dict_two_arg.insert(std::make_pair("Fight", &Player::Fight));
 }
 
 static std::string directionToString(IRoom::Direction a_direction)
@@ -309,6 +326,31 @@ void Player::Where(std::string& a_out) const
 void Player::Look(std::string& a_out) const
 {
     m_location->Describe(a_out);
+}
+
+void Player::Call(const std::string& a_method, std::string& a_out)
+{
+    auto no_const_res = s_mf_dict_one_arg.find(a_method);
+    if(no_const_res != s_mf_dict_one_arg.end()) {
+        (this->*(no_const_res->second))(a_out);
+        return;
+    }
+    auto const_res = s_mf_dict_one_arg_const.find(a_method);
+    if(const_res != s_mf_dict_one_arg_const.end()) {
+        (this->*(const_res->second))(a_out);
+        return;
+    }
+    a_out = "No such methos found";
+}
+
+void Player::Call(const std::string& a_method, const std::string& a_arg, std::string& a_out)
+{
+    auto res = s_mf_dict_two_arg.find(a_method);
+    if(res != s_mf_dict_two_arg.end()) {
+        (this->*(res->second))(a_arg, a_out);
+        return;
+    }
+    a_out = "No such methos found";
 }
 
 } //d_d
