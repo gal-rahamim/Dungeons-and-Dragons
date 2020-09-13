@@ -28,6 +28,9 @@ IObject::~IObject()
 
 void IObject::Respawn(std::shared_ptr<IObject>& a_self)
 {
+    if(m_respawn_sec == 0) {
+        return;
+    }
     m_wait_respawn = std::make_shared<std::thread>(waitNsecAndThenRespawn, a_self, std::ref(m_start_pos), m_respawn_sec);
 }
 
