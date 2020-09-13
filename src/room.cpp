@@ -37,17 +37,21 @@ void Room::Move(Direction a_direction, std::shared_ptr<IPassage>& a_passage)
 
 void Room::Describe(std::string& a_description) const
 {
-    a_description = "This is " + Name() + "\nIn this room there are " + std::to_string(m_objects.size()) + " objects"
-                    + ", " + std::to_string(m_passages.size()) + " passages and " + std::to_string(m_players.size()) + " players";
+    a_description = "------This is " + Name() + "------\nIn this room there are " + std::to_string(m_objects.size()) + " objects"
+                    + ", " + std::to_string(m_passages.size()) + " passages and " + std::to_string(m_players.size()) + " creatures";
+    a_description += "\n---Objects---";
     std::for_each(m_objects.begin(), m_objects.end(), [&](auto obj)
     {
         std::string objDescription;
         obj.second->Describe(objDescription);
         a_description += "\n" + objDescription;
     });
+    a_description += "\n---Creatures---";
     std::for_each(m_players.begin(), m_players.end(), [&](auto obj)
     {
-        a_description += "\n" + obj.second->Name();
+        std::string fightable_desc;
+        obj.second->Describe(fightable_desc);
+        a_description += "\n" + fightable_desc;
     });
 }
 
