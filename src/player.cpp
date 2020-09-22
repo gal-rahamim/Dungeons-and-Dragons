@@ -232,7 +232,7 @@ void Player::Fight(const std::string& a_name, std::string& a_out)
     beta = betaRange(rd);
     ReduceLife(alpha);
     target->ReduceLife(beta);
-    a_out = "A hit was made!\nYou'r damage: " + std::to_string(alpha) + ", current life: " + std::to_string(GetLife())
+    a_out = "A hit was made!\nYou're damage: " + std::to_string(alpha) + ", current life: " + std::to_string(GetLife())
             + "\nOpponent damage: " + std::to_string(beta) + ", opponent current life: " + std::to_string(target->GetLife());
     if(target->GetLife() == 0) {
         unsigned int shinyMoney = target->GetMoney();
@@ -273,6 +273,11 @@ void Player::Describe(std::string& a_out) const
     std::string swordDescription;
     m_sword->Describe(swordDescription);
     a_out = Name() + ":\nLife: " + std::to_string(GetLife()) + "\nMoney: " + std::to_string(GetMoney()) + "\nSword:\n" + swordDescription;
+    if(m_shield) {
+        std::string shieldDescription;
+        m_shield->Describe(shieldDescription);
+        a_out += "\nShield:\n" + shieldDescription;
+    }
 }
 
 void Player::Open(std::string& a_out) const
