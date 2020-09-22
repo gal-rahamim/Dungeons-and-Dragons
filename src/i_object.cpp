@@ -23,7 +23,9 @@ IObject::IObject(const std::string& a_name, const std::shared_ptr<IRoom>& a_star
 
 IObject::~IObject() 
 {
-    m_wait_respawn->join();
+    if(m_wait_respawn && m_wait_respawn->joinable()) {
+        m_wait_respawn->join();
+    }
 }
 
 void IObject::Respawn(std::shared_ptr<IObject>& a_self)

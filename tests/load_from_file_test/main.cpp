@@ -32,14 +32,14 @@ int main()
     shared_ptr<IFightableLoader> dl = make_shared<DragonLoader>(dp);
     shared_ptr<IObjectLoader> ol = make_shared<ObjectLoader>(op);
     MapLoader ml(rl, pl, dl, ol);
-    vector<shared_ptr<IRoom>> rooms;
+    unordered_map<string, shared_ptr<IRoom>> rooms;
     ml.Load(rooms);
     string out;
-    rooms[0]->Describe(out);
+    rooms["room a"]->Describe(out);
     cout << out << endl;
-    rooms[1]->Describe(out);
+    rooms["room b"]->Describe(out);
     cout << out << endl;
-    rooms[2]->Describe(out);
+    rooms["room c"]->Describe(out);
     cout << out << endl;
 
     return 0;

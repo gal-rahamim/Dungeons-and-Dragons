@@ -23,7 +23,9 @@ Dragon::Dragon(const std::string& a_name, const std::shared_ptr<IRoom>& a_starti
 
 Dragon::~Dragon()
 {
-    m_respwan_wait_thread->join();
+    if(m_respwan_wait_thread && m_respwan_wait_thread->joinable()) {
+        m_respwan_wait_thread->join();
+    }
 }
 
 unsigned int Dragon::GetDefense() const

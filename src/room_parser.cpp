@@ -1,11 +1,10 @@
 #include "room_parser.hpp"
-#include "room.hpp"
 
 namespace d_d {
 
-bool RoomParser::Parse(const std::string& a_line, std::shared_ptr<IRoom>& a_room) const
+bool RoomParser::Parse(const std::string& a_line, std::string& a_room_name) const
 {
-    a_room = std::make_shared<Room>(a_line);
+    a_room_name = a_line;
     return true;
 }
 

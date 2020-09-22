@@ -15,7 +15,7 @@ public:
             , const std::shared_ptr<IPassageLoader>& a_passage_loader
             , const std::shared_ptr<IFightableLoader>& a_fightable_loader
             , const std::shared_ptr<IObjectLoader>& a_object_loader);
-    virtual void Load(std::vector<std::shared_ptr<IRoom> >& a_rooms) const;
+    virtual void Load(std::unordered_map<std::string, std::shared_ptr<IRoom> >& a_rooms) const;
 
 private:
     std::shared_ptr<IRoomLoader> m_room_loader;

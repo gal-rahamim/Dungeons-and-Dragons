@@ -14,17 +14,12 @@ MapLoader::MapLoader(const std::shared_ptr<IRoomLoader>& a_room_loader
 {    
 }
 
-void MapLoader::Load(std::vector<std::shared_ptr<IRoom> >& a_rooms) const
+void MapLoader::Load(std::unordered_map<std::string, std::shared_ptr<IRoom> >& a_rooms) const
 {
     m_room_loader->Load("rooms.log", a_rooms);
-    std::unordered_map<std::string, std::shared_ptr<IRoom>> room_map;
-    std::for_each(a_rooms.begin(), a_rooms.end(), [&](auto obj)
-    {
-        room_map.insert(std::make_pair(obj->Name(), obj));
-    });
-    m_passage_loader->Load("passages.log", room_map);
-    m_fightable_loader->Load("dragons.log", room_map);
-    m_object_loader->Load("objects.log", room_map);
+    m_passage_loader->Load("passages.log", a_rooms);
+    m_fightable_loader->Load("dragons.log", a_rooms);
+    m_object_loader->Load("objects.log", a_rooms);
 }
 
 } //d_d

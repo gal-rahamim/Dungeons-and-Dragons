@@ -8,7 +8,7 @@ namespace d_d {
 class IRoomParser {
 public:
     virtual ~IRoomParser();
-    virtual bool Parse(const std::string& a_line, std::shared_ptr<IRoom>& a_room) const = 0;
+    virtual bool Parse(const std::string& a_line, std::string& a_room_name) const = 0;
 
 };
 
