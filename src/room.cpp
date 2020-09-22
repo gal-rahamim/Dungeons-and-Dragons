@@ -65,7 +65,7 @@ void Room::GetObject(const std::string& a_objectName, std::shared_ptr<IObject>& 
     }
     else {
         a_obj = res->second;
-        res->second->Respawn(res->second);
+        res->second->Respawn();
         m_objects.erase(a_objectName);
         a_output = res->second->Name() + " Obtained";
         return;

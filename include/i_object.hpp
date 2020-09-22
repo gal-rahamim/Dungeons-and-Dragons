@@ -9,7 +9,7 @@ namespace d_d {
 
 class IRoom;
 
-class IObject {
+class IObject : public std::enable_shared_from_this<IObject> {
 public:
     typedef std::shared_ptr<IObject> ObjectPtr;
 
@@ -17,7 +17,7 @@ public:
     IObject(const std::string& a_name, const std::shared_ptr<IRoom>& a_start_pos, unsigned int a_respawn_sec = 20);
     virtual ~IObject();
     virtual void Describe(std::string& a_description) const = 0;
-    void Respawn(std::shared_ptr<IObject>& a_self);
+    void Respawn();
     const std::string& Name() const;
 
 private:

@@ -28,12 +28,15 @@ IObject::~IObject()
     }
 }
 
-void IObject::Respawn(std::shared_ptr<IObject>& a_self)
+void IObject::Respawn()
 {
     if(m_respawn_sec == 0) {
         return;
     }
-    m_wait_respawn = std::make_shared<std::thread>(waitNsecAndThenRespawn, a_self, std::ref(m_start_pos), m_respawn_sec);
+    if(m_wait_respawn && m_wait_respawn->joinable()) {
+        m_wait_respawn->join();
+    }
+    m_wait_respawn = std::make_shared<std::thread>(waitNsecAndThenRespawn, shared_from_this(), std::ref(m_start_pos), m_respawn_sec);
 }
 
 const std::string& IObject::Name() const
