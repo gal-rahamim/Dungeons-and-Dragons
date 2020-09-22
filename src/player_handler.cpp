@@ -20,6 +20,10 @@ const std::unordered_map<std::string, std::string> PlayerHandler::s_dict({{"forw
                                                          ,{"take", "Take"}
                                                          ,{"get", "Take"}
                                                          ,{"pick", "Take"}
+                                                         ,{"Fight", "Fight"}
+                                                         ,{"fight", "Fight"}
+                                                         ,{"attack", "Fight"}
+                                                         ,{"Attack", "Fight"}
                                                          ,{"open", "Open"}
                                                          ,{"o", "Open"}
                                                          ,{"close", "Close"}
