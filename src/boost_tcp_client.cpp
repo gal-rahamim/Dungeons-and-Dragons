@@ -48,7 +48,7 @@ void BoostTCPClient::read_done(error_code a_error, std::size_t a_bytes_read)
 
 void BoostTCPClient::Write()
 {
-    std::cin >> m_out_massage;
+    std::getline(std::cin, m_out_massage);
     m_out_massage += '~';
     io::async_write(m_sock, io::buffer(m_out_massage), [self = this] (error_code error, std::size_t bytes_transferred)
     {
