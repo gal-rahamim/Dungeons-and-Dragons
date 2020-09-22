@@ -17,7 +17,7 @@ public:
 
     virtual void Describe(std::string& a_description) const;
     virtual void AddPassage(const std::pair<Direction, std::shared_ptr<IPassage>>& a_passage);
-    virtual std::shared_ptr<IObject> GetObject(const std::string& a_objectName, std::string& a_output);
+    virtual void GetObject(const std::string& a_objectName, std::shared_ptr<IObject>& a_obj, std::string& a_output);
     virtual void PlaceObject(const IObject::ObjectPtr& a_object, std::string& a_output);
     virtual void PlaceObjects(const std::vector<IObject::ObjectPtr>& a_objects, std::string& a_output);
     virtual void Move(Direction a_direction, std::shared_ptr<IPassage>& a_passage);

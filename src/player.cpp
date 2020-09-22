@@ -169,7 +169,8 @@ void Player::TurnLeft(std::string& a_out)
 void Player::Take(const std::string& a_objectName, std::string& a_out)
 {
     std::string getOutput;
-    auto obj = m_location->GetObject(a_objectName, getOutput);
+    std::shared_ptr<IObject> obj;
+    m_location->GetObject(a_objectName, obj, getOutput);
     if(!obj) {
         a_out = getOutput;
         return;
@@ -190,7 +191,9 @@ void Player::Take(const std::string& a_objectName, std::string& a_out)
             std::string placeOutput;
             m_location->PlaceObject(m_shield, placeOutput);
             a_out += placeOutput;
+            return;
         }
+        a_out = getOutput;
         m_shield = shield;
         return;
     }
@@ -346,7 +349,7 @@ void Player::Call(const std::string& a_method, std::string& a_out)
         (this->*(const_res->second))(a_out);
         return;
     }
-    a_out = "No such methos found";
+    a_out = "No such method found";
 }
 
 void Player::Call(const std::string& a_method, const std::string& a_arg, std::string& a_out)

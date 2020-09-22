@@ -51,22 +51,24 @@ void Room::Describe(std::string& a_description) const
     {
         std::string fightable_desc;
         obj.second->Describe(fightable_desc);
-        a_description += "\n" + fightable_desc;
+        a_description += "\n------\n" + fightable_desc;
     });
 }
 
-std::shared_ptr<IObject> Room::GetObject(const std::string& a_objectName, std::string& a_output)
+void Room::GetObject(const std::string& a_objectName, std::shared_ptr<IObject>& a_obj, std::string& a_output)
 {
     auto res = m_objects.find(a_objectName);
     if(res == m_objects.end()) {
         a_output = "No such object was found";
-        return nullptr;
+        a_obj = nullptr;
+        return;
     }
     else {
+        a_obj = res->second;
+        res->second->Respawn(res->second);
         m_objects.erase(a_objectName);
         a_output = res->second->Name() + " Obtained";
-        res->second->Respawn(res->second);
-        return res->second;
+        return;
     }
 }
 
