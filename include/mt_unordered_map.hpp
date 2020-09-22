@@ -12,10 +12,12 @@ public:
     void Insert(const std::pair<Key, Data>& a_item);
     void Remove(const Key& a_to_remove);
     bool IsExist(const Key& a_to_find) const;
+    template<typename Function>
+    void ForEach(Function a_fn) const;
     operator bool() const;
 
 private:
-    std::unordered_map<Key, Data> m_set;
+    std::unordered_map<Key, Data> m_map;
     mutable std::mutex m_lock;
 
 };
