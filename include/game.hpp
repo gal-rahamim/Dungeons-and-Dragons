@@ -21,7 +21,7 @@ private:
 private:
     std::shared_ptr<IMapLoader> m_map_loader;
     std::unordered_map<std::string, std::shared_ptr<IRoom> > m_map;
-    std::shared_ptr<MTUnorderedMap<std::string, bool> > m_players;
+    std::shared_ptr<MTUnorderedMap<std::string, std::shared_ptr<PlayerHandler>> > m_players;
     std::shared_ptr<BoostTcpServer<PlayerHandler> > m_tcp_server;
 };
 

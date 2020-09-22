@@ -6,7 +6,7 @@ namespace d_d {
 Game::Game(const std::shared_ptr<IMapLoader>& a_map_loader)
 : m_map_loader(a_map_loader)
 , m_map()
-, m_players(std::make_shared<MTUnorderedMap<std::string, bool>>())
+, m_players(std::make_shared<MTUnorderedMap<std::string, std::shared_ptr<PlayerHandler>>>())
 , m_tcp_server(std::make_shared<BoostTcpServer<PlayerHandler>>(3))
 {
     m_map_loader->Load(m_map);
