@@ -82,7 +82,7 @@ bool Passage::UnLock(const std::shared_ptr<Key>& a_key, std::string& a_output)
         a_output = "This door as no lock";
         return false;
     }
-    if(m_key == a_key) {
+    if(m_key->Name() == a_key->Name()) {
         m_lock_state = LOCK_STATE_UNLOCKED;
         a_output = "You have unlocked the door";
         return true;
