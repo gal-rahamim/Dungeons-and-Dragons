@@ -37,9 +37,12 @@ void BoostTCPClient::read_done(error_code a_error, std::size_t a_bytes_read)
         std::cout << a_error.message() << std::endl;
         return;
     }
-    // std::cout << "finished reading: " << a_bytes_read << " bytes" << std::endl;
-    std::cout << std::istream(&m_in_packet).rdbuf() << std::endl;
+    std::stringstream stream;
+    stream << std::istream(&m_in_packet).rdbuf();
+    std::string msg(stream.str());
+    msg.pop_back();
     m_in_packet.consume(a_bytes_read);
+    std::cout << msg << std::endl;
     Read();
 }
 
@@ -47,7 +50,6 @@ void BoostTCPClient::Write()
 {
     std::cin >> m_out_massage;
     m_out_massage += '~';
-    // std::cout << "trying to send" << std::endl;
     io::async_write(m_sock, io::buffer(m_out_massage), [self = this] (error_code error, std::size_t bytes_transferred)
     {
         self->send_done(error, bytes_transferred);
@@ -60,13 +62,11 @@ void BoostTCPClient::send_done(error_code a_error, std::size_t a_bytes_read)
         std::cout << a_error.message() << std::endl;
         return;
     }
-    // std::cout << "finished sending: " << a_bytes_read << " bytes" << std::endl;
     Write();
 }
 
 void BoostTCPClient::Read()
 {
-    // std::cout << "trying to read" << std::endl;
     io::async_read_until(m_sock, m_in_packet, '~', [self = this] (error_code error, std::size_t bytes_transferred)
     {
         self->read_done(error, bytes_transferred);

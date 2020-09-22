@@ -74,9 +74,9 @@ void PlayerHandler::read_name_done(error_code a_error, std::size_t a_bytes_read)
         m_socket.close(a_error);
         return;
     }
-    std::istream stream(&m_in_packet);
-    std::string name;
-    stream >> name;
+    std::stringstream stream;
+    stream << std::istream(&m_in_packet).rdbuf();
+    std::string name(stream.str());
     name.pop_back();
     m_in_packet.consume(a_bytes_read);
     std::cout << name << std::endl;
@@ -87,7 +87,11 @@ void PlayerHandler::read_name_done(error_code a_error, std::size_t a_bytes_read)
     else {
         m_players->Insert(std::make_pair(name, true));
         m_player = std::make_shared<Player>(name, m_start_room);
+        m_start_room->Enter(m_player);
         send("Welcome " + name + "\n~");
+        std::string out;
+        m_player->Where(out);
+        send("you are now in: " + out + "\nEnter command:~");
         read_command();
     }
 }
