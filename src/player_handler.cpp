@@ -17,6 +17,7 @@ const std::unordered_map<std::string, std::string> PlayerHandler::s_dict({{"forw
                                                          ,{"right", "TurnRight"}
                                                          ,{"r", "TurnRight"}
                                                          ,{"Take", "Take"}
+                                                         ,{"take", "Take"}
                                                          ,{"get", "Take"}
                                                          ,{"pick", "Take"}
                                                          ,{"open", "Open"}
@@ -28,9 +29,14 @@ const std::unordered_map<std::string, std::string> PlayerHandler::s_dict({{"forw
                                                          ,{"where", "Where"}
                                                          ,{"me", "Describe"}
                                                          ,{"myself", "Describe"}
+                                                         ,{"talk", "talk"}
+                                                         ,{"Talk", "talk"}
+                                                         ,{"Shout", "shout"}
+                                                         ,{"shout", "shout"}
+                                                         ,{"myself", "Describe"}
                                                          ,{"self", "Describe"}});
 
-PlayerHandler::PlayerHandler(tcp::socket&& a_socket, const std::shared_ptr<IRoom>& a_start_room, const std::shared_ptr<MTUnorderedMap<std::string, bool>>& a_players)
+PlayerHandler::PlayerHandler(tcp::socket&& a_socket, const std::shared_ptr<IRoom>& a_start_room, const std::shared_ptr<MTUnorderedMap<std::string, std::shared_ptr<PlayerHandler>>>& a_players)
 : m_socket(std::move(a_socket))
 , m_start_room(a_start_room)
 , m_players(a_players)
@@ -79,13 +85,12 @@ void PlayerHandler::read_name_done(error_code a_error, std::size_t a_bytes_read)
     std::string name(stream.str());
     name.pop_back();
     m_in_packet.consume(a_bytes_read);
-    std::cout << name << std::endl;
     if(name == "" || m_players->IsExist(name)) {
         send("Illigal name, please try again\n~");
         read_name();
     }
     else {
-        m_players->Insert(std::make_pair(name, true));
+        m_players->Insert(std::make_pair(name, shared_from_this()));
         m_player = std::make_shared<Player>(name, m_start_room);
         m_start_room->Enter(m_player);
         send("Welcome " + name + "\n~");
@@ -134,7 +139,10 @@ void PlayerHandler::read_command_done(error_code a_error, std::size_t a_bytes_re
     splitTwoWords(input, command, arg);
     auto res = s_dict.find(command);
     if(res == s_dict.end()) {
-        send("Unknown command: " + command + ", please try again\n~");
+        send("Unknown command: " + command + arg + ", please try again\n~");
+    }
+    else if(res->second == "shout") {
+        m_players->ForEach([&](auto self){self.second->send(arg + '~');});
     }
     else {
         std::string out;
@@ -154,11 +162,6 @@ void PlayerHandler::send(const std::string& a_msg)
     if(!m_socket.is_open()) {
         return;
     }
-    // error_code error;
-    // io::write(m_socket, io::buffer(a_msg), error);
-    // if(error){
-    //     std::cout << "send failed: " << error.message() << std::endl;
-    // }
     io::async_write(m_socket, io::buffer(a_msg), [self = shared_from_this()] (error_code error, std::size_t bytes_transferred)
     {
         self->send_done(error, bytes_transferred);
@@ -172,7 +175,6 @@ void PlayerHandler::send_done(error_code a_error, std::size_t a_bytes_read)
         m_socket.close(a_error);
         return;
     }
-    std::cout << "sent " << a_bytes_read << " bytes" << std::endl;
 }
 
 } //d_d

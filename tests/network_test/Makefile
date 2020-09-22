@@ -44,7 +44,7 @@ $(TARGET): $(OBJECTS)
 #spacial targets
 .PHONY:clean
 clean:
-	rm -f $(TARGET) *.o *.out *.txt
+	rm -f $(TARGET) *.o *.out *.txt helgrind.log drd.log
 	rm -f $(SRC_DIR)*.o
 
 .PHONY:run

@@ -15,7 +15,7 @@ namespace d_d {
 
 class PlayerHandler : public std::enable_shared_from_this<PlayerHandler> {
 public:
-    PlayerHandler(tcp::socket&& a_socket, const std::shared_ptr<IRoom>& a_start_room, const std::shared_ptr<MTUnorderedMap<std::string, bool>>& a_players);
+    PlayerHandler(tcp::socket&& a_socket, const std::shared_ptr<IRoom>& a_start_room, const std::shared_ptr<MTUnorderedMap<std::string, std::shared_ptr<PlayerHandler>>>& a_players);
     ~PlayerHandler();
     
     tcp::socket& Socket();
@@ -37,7 +37,7 @@ private:
     std::shared_ptr<IRoom> m_start_room;
     std::shared_ptr<IPlayer> m_player;
     io::streambuf m_in_packet;
-    std::shared_ptr<MTUnorderedMap<std::string, bool> > m_players;
+    std::shared_ptr<MTUnorderedMap<std::string, std::shared_ptr<PlayerHandler>>> m_players;
 
 };
 
