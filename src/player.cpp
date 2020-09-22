@@ -35,6 +35,12 @@ Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_starti
     s_mf_dict_two_arg.insert(std::make_pair("Fight", &Player::Fight));
 }
 
+Player::~Player()
+{
+    std::shared_ptr<IFightable> me;
+    m_location->Exit(Name(), me);
+}
+
 static std::string directionToString(IRoom::Direction a_direction)
 {
     std::string ret;

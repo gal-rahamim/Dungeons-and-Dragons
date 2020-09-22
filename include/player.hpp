@@ -16,6 +16,7 @@ namespace d_d {
 class Player : public IPlayer, advcpp::UnCopyable {
 public:
     Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition, unsigned int a_starting_life = 42, unsigned int a_starting_money = 0);
+    ~Player();
     virtual unsigned int GetDefense() const;
     virtual unsigned int GetAttack() const;
     virtual void Respawn();
