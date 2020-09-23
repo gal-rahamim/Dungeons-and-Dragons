@@ -223,6 +223,10 @@ void Player::Fight(const std::string& a_name, std::string& a_out)
         a_out = "No such victim was found in the room";
         return;
     }
+    else if(target.get() == this) {
+        a_out = "You can't fight yourself O_O";
+        return;
+    }
     unsigned int alpha = std::min((unsigned int)0, GetAttack() - target->GetDefense());
     unsigned int beta = std::min((unsigned int)0, target->GetAttack()/3 - GetDefense());
     std::uniform_int_distribution<int> alphaRange(alpha, alpha*2 + 10);
