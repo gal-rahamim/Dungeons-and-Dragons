@@ -51,6 +51,9 @@ void Dragon::Respawn()
         return;
     }
     SetMoney(m_starting_money);
+    if(m_respwan_wait_thread && m_respwan_wait_thread->joinable()) {
+        m_respwan_wait_thread->join();
+    }
     m_respwan_wait_thread = std::make_shared<std::thread>(waitNsecAndThenRespawn, me, std::ref(m_starting_pos), m_respawn_sec);
 }
 
