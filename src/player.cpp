@@ -282,6 +282,10 @@ void Player::Describe(std::string& a_out) const
         m_shield->Describe(shieldDescription);
         a_out += "\nShield:\n" + shieldDescription;
     }
+    a_out += "\nKeys: ";
+    for(auto key : m_keys) {
+        a_out += key->Name() + ';';
+    }
 }
 
 void Player::Open(std::string& a_out) const
