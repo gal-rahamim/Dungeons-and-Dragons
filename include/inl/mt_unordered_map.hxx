@@ -43,6 +43,16 @@ void MTUnorderedMap<Key, Data>::ForEach(Function a_fn) const
     }
 }
 
+template<typename Key, typename Data>
+void MTUnorderedMap<Key, Data>::Find(const Key& a_to_find, Data& a_found_object) const
+{
+    Locker guard(m_lock);
+    auto res = m_map.find(a_to_find);
+    if(res != m_map.end()) {
+        a_found_object = res->second;
+    }
+}
+
 } //d_d
 
 #endif //MT_UNORDERED_MAP_HXX

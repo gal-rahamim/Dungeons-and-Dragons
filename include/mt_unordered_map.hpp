@@ -14,6 +14,7 @@ public:
     bool IsExist(const Key& a_to_find) const;
     template<typename Function>
     void ForEach(Function a_fn) const;
+    void Find(const Key& a_to_find, Data& a_found_object) const;
     operator bool() const;
 
 private:
