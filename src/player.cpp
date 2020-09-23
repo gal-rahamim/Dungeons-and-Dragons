@@ -151,7 +151,7 @@ void Player::Backward(std::string& a_out)
 {
     reverseDirection(m_direction);
     Forward(a_out);
-    reverseDirection(m_direction);
+    a_out = "You are now facing: " + directionToString(m_direction) + "\n" + a_out;
 }
 
 void Player::TurnRight(std::string& a_out)
