@@ -62,7 +62,7 @@ tcp::socket& PlayerHandler::Socket()
 
 void PlayerHandler::Start()
 {
-    send("Welcome\nPlease enter your name:\n~");
+    send("Welcome\nPlease enter your name:~");
     read_name();
 }
 
@@ -90,17 +90,16 @@ void PlayerHandler::read_name_done(error_code a_error, std::size_t a_bytes_read)
     m_name.pop_back();
     m_in_packet.consume(a_bytes_read);
     if(m_name == "" || m_players->IsExist(m_name)) {
-        send("Illigal name, please try again\n~");
+        send("Illigal name, please try again~");
         read_name();
     }
     else {
         m_players->Insert(std::make_pair(m_name, shared_from_this()));
         m_player = std::make_shared<Player>(m_name, m_start_room);
         m_start_room->Enter(m_player);
-        send("Welcome " + m_name + "\n~");
         std::string out;
         m_player->Where(out);
-        send("you are now in: " + out + "\nEnter command:~");
+        send("Welcome " + m_name + "\nyou are now in: " + out + "\nEnter command:~");
         read_command();
     }
 }
@@ -143,10 +142,22 @@ void PlayerHandler::read_command_done(error_code a_error, std::size_t a_bytes_re
     splitTwoWords(input, command, arg);
     auto res = s_dict.find(command);
     if(res == s_dict.end()) {
-        send("Unknown command: " + command + arg + ", please try again\n~");
+        send("Unknown command: " + command + arg + ", please try again~");
     }
     else if(res->second == "shout") {
         m_players->ForEach([&](auto self){self.second->send(m_name + " (global): " + arg + '~');});
+    }
+    else if(res->second == "talk") {
+        std::string destName, msg;
+        splitTwoWords(arg, destName, msg);
+        std::shared_ptr<PlayerHandler> destPtr;
+        m_players->Find(destName, destPtr);
+        if(destPtr) {
+            destPtr->send(m_name + " (private): " + msg + '~');
+        }
+        else {
+            send("Could not find " + destName + '~');
+        }
     }
     else {
         std::string out;
