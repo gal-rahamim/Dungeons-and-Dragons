@@ -51,7 +51,7 @@ PlayerHandler::~PlayerHandler()
     error_code error;
     m_socket.close(error);
     if(m_player) {
-        m_players->Remove(m_player->Name());
+        m_players->Remove(m_name);
     }
 }
 
@@ -86,18 +86,18 @@ void PlayerHandler::read_name_done(error_code a_error, std::size_t a_bytes_read)
     }
     std::stringstream stream;
     stream << std::istream(&m_in_packet).rdbuf();
-    std::string name(stream.str());
-    name.pop_back();
+    m_name = stream.str();
+    m_name.pop_back();
     m_in_packet.consume(a_bytes_read);
-    if(name == "" || m_players->IsExist(name)) {
+    if(m_name == "" || m_players->IsExist(m_name)) {
         send("Illigal name, please try again\n~");
         read_name();
     }
     else {
-        m_players->Insert(std::make_pair(name, shared_from_this()));
-        m_player = std::make_shared<Player>(name, m_start_room);
+        m_players->Insert(std::make_pair(m_name, shared_from_this()));
+        m_player = std::make_shared<Player>(m_name, m_start_room);
         m_start_room->Enter(m_player);
-        send("Welcome " + name + "\n~");
+        send("Welcome " + m_name + "\n~");
         std::string out;
         m_player->Where(out);
         send("you are now in: " + out + "\nEnter command:~");
@@ -146,7 +146,7 @@ void PlayerHandler::read_command_done(error_code a_error, std::size_t a_bytes_re
         send("Unknown command: " + command + arg + ", please try again\n~");
     }
     else if(res->second == "shout") {
-        m_players->ForEach([&](auto self){self.second->send(arg + '~');});
+        m_players->ForEach([&](auto self){self.second->send(m_name + " (global): " + arg + '~');});
     }
     else {
         std::string out;

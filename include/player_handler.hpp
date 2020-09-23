@@ -38,7 +38,7 @@ private:
     std::shared_ptr<IPlayer> m_player;
     io::streambuf m_in_packet;
     std::shared_ptr<MTUnorderedMap<std::string, std::shared_ptr<PlayerHandler>>> m_players;
-
+    std::string m_name;
 };
 
 } //d_d
