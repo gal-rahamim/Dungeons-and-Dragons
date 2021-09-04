@@ -27,7 +27,7 @@ bool ConnectionHandler::Read()
     if(!m_sock.is_open()) {
         return false;
     }
-    m_sock.async_read_some(boost::asio::buffer(m_buffer), m_strand.wrap(boost::bind(&ConnectionHandler::handle, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred)));
+    m_sock.async_read_some(boost::asio::buffer(m_buffer), m_strand.post(boost::bind(&ConnectionHandler::handle, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred)));
     return true;
 }
 

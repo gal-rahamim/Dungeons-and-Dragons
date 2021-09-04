@@ -25,9 +25,9 @@ void BoostTCPClient::Connect()
     m_sock.connect(tcp::endpoint(io::ip::address::from_string(m_ip), m_port));
     std::cout << "Connected to server" << std::endl;
     
-    Read();
+    // Read();
     m_read_thread = std::thread([=]{m_io_context.run();});
-    Write();
+    // Write();
     m_write_thread = std::thread([=]{m_io_context.run();});
 }
 
@@ -43,10 +43,10 @@ void BoostTCPClient::read_done(error_code a_error, std::size_t a_bytes_read)
     msg.pop_back();
     m_in_packet.consume(a_bytes_read);
     std::cout << msg << std::endl;
-    Read();
+    // Read();
 }
 
-void BoostTCPClient::Write()
+void BoostTCPClient::Write(const std::string& a_msg)
 {
     std::getline(std::cin, m_out_massage);
     m_out_massage += '~';
@@ -62,10 +62,10 @@ void BoostTCPClient::send_done(error_code a_error, std::size_t a_bytes_read)
         std::cout << a_error.message() << std::endl;
         return;
     }
-    Write();
+    // Write();
 }
 
-void BoostTCPClient::Read()
+void BoostTCPClient::Read(std::string& a_msg)
 {
     io::async_read_until(m_sock, m_in_packet, '~', [self = this] (error_code error, std::size_t bytes_transferred)
     {

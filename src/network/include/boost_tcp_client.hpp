@@ -4,7 +4,7 @@
 #include <boost/asio.hpp>
 #include <thread>
 #include <memory>
-// #include "i_tcp_client.hpp"
+#include "i_tcp_client.hpp"
 
 namespace io = boost::asio;
 using tcp = io::ip::tcp;
@@ -12,14 +12,14 @@ using error_code = boost::system::error_code;
 
 namespace d_d {
 
-class BoostTCPClient {
+class BoostTCPClient : public ITCPClient {
 public:
     BoostTCPClient(const std::string& a_ip = "127.0.0.1", size_t a_port = 2222); 
     ~BoostTCPClient();
 
-    void Connect();
-    void Write();
-    void Read();
+    void Connect() override;
+    void Write(const std::string& a_msg) override;
+    void Read(std::string& a_msg) override;
 
 private:
     void read_done(error_code a_error, std::size_t a_bytes_read);
