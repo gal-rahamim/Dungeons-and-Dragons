@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <thread>
+#include <atomic>
 #include "i_tcp_client.hpp"
 
 namespace d_d {
