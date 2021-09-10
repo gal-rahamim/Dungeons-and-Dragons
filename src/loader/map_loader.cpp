@@ -16,10 +16,10 @@ MapLoader::MapLoader(const std::shared_ptr<IRoomLoader>& a_room_loader
 
 void MapLoader::Load(std::unordered_map<std::string, std::shared_ptr<IRoom> >& a_rooms) const
 {
-    m_room_loader->Load("rooms.log", a_rooms);
-    m_passage_loader->Load("passages.log", a_rooms);
-    m_fightable_loader->Load("dragons.log", a_rooms);
-    m_object_loader->Load("objects.log", a_rooms);
+    m_room_loader->Load("/tmp/rooms.cfg", a_rooms);
+    m_passage_loader->Load("/tmp/passages.cfg", a_rooms);
+    m_fightable_loader->Load("/tmp/dragons.cfg", a_rooms);
+    m_object_loader->Load("/tmp/objects.cfg", a_rooms);
 }
 
 } //d_d

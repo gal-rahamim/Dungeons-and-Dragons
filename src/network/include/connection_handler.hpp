@@ -32,7 +32,7 @@ private:
 
 private:
     tcp::socket m_sock;
-    strand m_strand;
+    strand<io_service> m_strand;
     enum{ m_maxBufffer = 256};
     char m_buffer[m_maxBufffer];
 };

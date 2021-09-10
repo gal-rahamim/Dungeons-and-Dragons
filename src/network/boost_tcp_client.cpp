@@ -24,11 +24,14 @@ void BoostTCPClient::Connect()
 {
     m_sock.connect(tcp::endpoint(io::ip::address::from_string(m_ip), m_port));
     std::cout << "Connected to server" << std::endl;
-    
-    Read();
-    m_read_thread = std::thread([=]{m_io_context.run();});
-    Write();
-    m_write_thread = std::thread([=]{m_io_context.run();});
+}
+
+void BoostTCPClient::Start()
+{
+    read();
+    m_read_thread = std::thread([this]{m_io_context.run();});
+    write();
+    m_write_thread = std::thread([this]{m_io_context.run();});
 }
 
 void BoostTCPClient::read_done(error_code a_error, std::size_t a_bytes_read)
@@ -43,16 +46,16 @@ void BoostTCPClient::read_done(error_code a_error, std::size_t a_bytes_read)
     msg.pop_back();
     m_in_packet.consume(a_bytes_read);
     std::cout << msg << std::endl;
-    Read();
+    read();
 }
 
-void BoostTCPClient::Write()
+void BoostTCPClient::write()
 {
     std::getline(std::cin, m_out_massage);
     m_out_massage += '~';
-    io::async_write(m_sock, io::buffer(m_out_massage), [self = this] (error_code error, std::size_t bytes_transferred)
+    io::async_write(m_sock, io::buffer(m_out_massage), [this] (error_code error, std::size_t bytes_transferred)
     {
-        self->send_done(error, bytes_transferred);
+        send_done(error, bytes_transferred);
     });
 }
 
@@ -62,14 +65,14 @@ void BoostTCPClient::send_done(error_code a_error, std::size_t a_bytes_read)
         std::cout << a_error.message() << std::endl;
         return;
     }
-    Write();
+    write();
 }
 
-void BoostTCPClient::Read()
+void BoostTCPClient::read()
 {
-    io::async_read_until(m_sock, m_in_packet, '~', [self = this] (error_code error, std::size_t bytes_transferred)
+    io::async_read_until(m_sock, m_in_packet, '~', [this] (error_code error, std::size_t bytes_transferred)
     {
-        self->read_done(error, bytes_transferred);
+        read_done(error, bytes_transferred);
     });
 }
 
