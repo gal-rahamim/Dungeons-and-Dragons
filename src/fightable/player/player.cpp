@@ -283,7 +283,7 @@ void Player::Describe(std::string& a_out) const
         a_out += "\nShield:\n" + shieldDescription;
     }
     a_out += "\nKeys: ";
-    for(auto key : m_keys) {
+    for(auto const& key : m_keys) {
         a_out += key->Name() + ';';
     }
 }
@@ -312,6 +312,11 @@ void Player::Close(std::string& a_out) const
 
 void Player::Lock(std::string& a_out) const
 {
+    if (m_keys.empty()) {
+        a_out = "You don't have any keys";
+        return;
+    }
+
     std::shared_ptr<IPassage> passage;
     m_location->Move(m_direction, passage);
     if(passage) {
@@ -327,11 +332,16 @@ void Player::Lock(std::string& a_out) const
 
 void Player::UnLock(std::string& a_out) const
 {
+    if (m_keys.empty()) {
+        a_out = "You don't have any keys";
+        return;
+    }
+
     std::shared_ptr<IPassage> passage;
     m_location->Move(m_direction, passage);
     if(passage) {
-        for(size_t i = 0 ; i < m_keys.size() ; ++i) {
-            if(passage->UnLock(m_keys[i], a_out)) {
+        for(auto const& key : m_keys) {
+            if(passage->UnLock(key, a_out)) {
                 break;
             }
         }

@@ -8,7 +8,7 @@ Shield::Shield(const std::string& a_name, const std::shared_ptr<IRoom>& a_start_
 
 void Shield::Describe(std::string& a_description) const
 {
-    a_description = "Shield: '" + Name() + "', Defense = " + std::to_string(GetDefense()); 
+    a_description = Name() + "', Defense = " + std::to_string(GetDefense()); 
 }    
 
 } //d_d

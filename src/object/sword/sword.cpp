@@ -8,7 +8,7 @@ Sword::Sword(const std::string& a_name, unsigned int a_strength, const std::shar
 
 void Sword::Describe(std::string& a_description) const
 {
-    a_description = "Sword: '" + Name() + "', Strength = " + std::to_string(GetStrength()); 
+    a_description = Name() + "', Strength = " + std::to_string(GetStrength()); 
 }
 
 
