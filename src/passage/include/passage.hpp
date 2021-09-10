@@ -11,7 +11,7 @@ class Passage : public IPassage {
 public:
     Passage(const std::shared_ptr<IRoom>& a_room1, const std::shared_ptr<IRoom>& a_room2
         , DoorState a_door_state = DOOR_STATE_NODOOR, LockState a_lock_state = LOCK_STATE_NOLOCK
-        , const std::shared_ptr<Key>& a_key = std::shared_ptr<Key>(new Key()));
+        , const std::shared_ptr<Key>& a_key = std::make_shared<Key>());
 
     virtual void Describe(std::string& a_description) const;
     virtual bool Pass(const std::shared_ptr<IRoom>& a_from, std::shared_ptr<IRoom>& a_to, std::string& a_output) const;

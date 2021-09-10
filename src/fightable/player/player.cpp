@@ -11,7 +11,7 @@ std::unordered_map<std::string, Player::MF_TWO_ARG> Player::s_mf_dict_two_arg;
 Player::Player(const std::string& a_name, const std::shared_ptr<IRoom>& a_startingPosition, unsigned int a_starting_life, unsigned int a_starting_money)
 : IPlayer(a_name, a_starting_life, a_starting_money)
 , m_location(a_startingPosition)
-, m_sword(new Sword("niddle", 4, a_startingPosition, 20))
+, m_sword(std::make_shared<Sword>("niddle", 4, a_startingPosition, 20))
 , m_shield()
 , m_keys()
 , m_direction(IRoom::NORTH)
