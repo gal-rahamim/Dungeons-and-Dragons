@@ -36,7 +36,7 @@ void BoostTcpServer<ConnectionHandler>::StartServer(const Arg1& a_arg1, const Ar
     });
 
     for(size_t i = 0 ; i < m_num_of_threads ; ++i) {
-        m_thread_pool.emplace_back([=]{m_io_context.run();});
+        m_thread_pool.emplace_back([this]{m_io_context.run();});
     }                                   
 
     for(size_t i = 0 ; i < m_num_of_threads ; ++i) {
