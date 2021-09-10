@@ -8,8 +8,6 @@ ISword::ISword(const std::string& a_name, unsigned int a_strength, const std::sh
 {
 }
 
-ISword::~ISword(){}
-
 unsigned int ISword::GetStrength() const
 {
     return m_strength;

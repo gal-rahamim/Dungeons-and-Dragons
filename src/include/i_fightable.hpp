@@ -8,7 +8,7 @@ namespace d_d {
 class IFightable {
 public:
     IFightable(const std::string& a_name, unsigned int a_life, unsigned int a_money);
-    virtual ~IFightable();
+    virtual ~IFightable() = default;
     virtual unsigned int GetDefense() const = 0;
     virtual unsigned int GetAttack() const = 0;
     virtual void Describe(std::string& a_out) const = 0;

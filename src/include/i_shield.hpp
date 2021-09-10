@@ -8,7 +8,7 @@ namespace d_d {
 class IShield : public IObject {
 public:
     IShield(const std::string& a_name, const std::shared_ptr<IRoom>& a_start_pos, unsigned int a_respawn_sec, unsigned int a_defense = 0);
-    virtual ~IShield();
+    virtual ~IShield() = default;
     virtual void Describe(std::string& a_description) const = 0;
     unsigned int GetDefense() const;
 

@@ -23,7 +23,7 @@ public:
 
 public:
     IRoom(const std::string& a_name);
-    virtual ~IRoom();
+    virtual ~IRoom() = default;
 
     virtual void InitRoom(const std::vector<IObject::ObjectPtr>& a_objects,
                          const std::vector<std::pair<Direction, std::shared_ptr<IPassage> > >& a_passages) = 0;
@@ -45,8 +45,6 @@ private:
 inline IRoom::IRoom(const std::string& a_name)
 : m_name(a_name)
 {}
-
-inline IRoom::~IRoom(){}
 
 
 inline const std::string& IRoom::Name() const

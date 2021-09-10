@@ -26,7 +26,7 @@ public:
     };
     
 public:
-    virtual ~IPassage();
+    virtual ~IPassage() = default;
     virtual void Describe(std::string& a_description) const = 0;
     virtual bool Pass(const std::shared_ptr<IRoom>& a_from, std::shared_ptr<IRoom>& a_to, std::string& a_output) const = 0;
     virtual bool Lock(const std::shared_ptr<Key>& a_key, std::string& a_output) = 0;
@@ -34,8 +34,6 @@ public:
     virtual bool Open(std::string& a_output) = 0;
     virtual bool Close(std::string& a_output) = 0;
 };
-
-inline IPassage::~IPassage(){}
 
 } //d_d
 

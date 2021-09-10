@@ -7,7 +7,7 @@ namespace advcpp {
 
 
 struct Runnable {
-	virtual ~Runnable() {}
+	virtual ~Runnable()  = default;
 	virtual void Run() = 0;
 };
 

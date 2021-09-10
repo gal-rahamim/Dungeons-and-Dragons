@@ -7,7 +7,7 @@ namespace d_d {
 
 class IDragonParser {
 public:
-    virtual ~IDragonParser();
+    virtual ~IDragonParser() = default;
     virtual bool Parse(const std::string& a_line
                      , std::string& a_room_name
                      , std::string& a_dragon_name
@@ -17,8 +17,6 @@ public:
                      , unsigned int& a_defense
                      , unsigned int& a_respawn_sec) const = 0;
 };
-
-inline IDragonParser::~IDragonParser(){}
 
 } //d_d
 

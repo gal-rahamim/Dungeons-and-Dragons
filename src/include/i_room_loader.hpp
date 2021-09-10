@@ -8,11 +8,9 @@ namespace d_d {
 
 class IRoomLoader {
 public:
-    virtual ~IRoomLoader();
+    virtual ~IRoomLoader() = default;
     virtual void Load(const std::string& a_filename, std::unordered_map<std::string, std::shared_ptr<IRoom> >& a_rooms) const = 0;
 };
-
-inline IRoomLoader::~IRoomLoader(){}
 
 } //d_d
 

@@ -9,7 +9,7 @@ namespace d_d {
 class IPlayer : public IFightable {
 public:
     IPlayer(const std::string& a_name, unsigned int a_life, unsigned int a_money);
-    virtual ~IPlayer();
+    virtual ~IPlayer() = default;
     virtual unsigned int GetDefense() const = 0;
     virtual unsigned int GetAttack() const = 0;
     virtual void Respawn() = 0;
@@ -33,8 +33,6 @@ public:
 inline IPlayer::IPlayer(const std::string& a_name, unsigned int a_life, unsigned int a_money)
 : IFightable(a_name, a_life, a_money)
 {}
-
-inline IPlayer::~IPlayer(){}
 
 } //d_d
 

@@ -15,8 +15,6 @@ IFightable::IFightable(const std::string& a_name, unsigned int a_life, unsigned 
     assert(m_money <= MAX_MONEY);
 }
 
-IFightable::~IFightable(){}
-
 unsigned int IFightable::GetLife() const
 {
     return m_life;

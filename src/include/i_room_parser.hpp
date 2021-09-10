@@ -7,12 +7,10 @@ namespace d_d {
 
 class IRoomParser {
 public:
-    virtual ~IRoomParser();
+    virtual ~IRoomParser() = default;
     virtual bool Parse(const std::string& a_line, std::string& a_room_name) const = 0;
 
 };
-
-inline IRoomParser::~IRoomParser(){}
 
 } //d_d
 

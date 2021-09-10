@@ -8,7 +8,7 @@ namespace d_d {
 
 class IPassageParser {
 public:
-    virtual ~IPassageParser();
+    virtual ~IPassageParser() = default;
     virtual bool Parse(const std::string& a_line
                      , std::pair<std::string, IRoom::Direction>& a_p1
                      , std::pair<std::string, IRoom::Direction>& a_p2
@@ -16,8 +16,6 @@ public:
                      , IPassage::LockState& a_ls
                      , std::shared_ptr<Key>& a_key) const = 0;
 };
-
-inline IPassageParser::~IPassageParser(){}
 
 } //d_d
 

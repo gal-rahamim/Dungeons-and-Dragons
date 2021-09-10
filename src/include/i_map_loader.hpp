@@ -9,12 +9,10 @@ namespace d_d {
 
 class IMapLoader {
 public:
-    virtual ~IMapLoader();
+    virtual ~IMapLoader() = default;
     virtual void Load(std::unordered_map<std::string, std::shared_ptr<IRoom> >& a_rooms) const = 0;
 
 };
-
-inline IMapLoader::~IMapLoader() {}
 
 } //d_d
 

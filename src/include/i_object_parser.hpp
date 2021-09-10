@@ -7,7 +7,7 @@ namespace d_d {
 
 class IObjectParser {
 public:
-    virtual ~IObjectParser();
+    virtual ~IObjectParser() = default;
     virtual bool Parse(const std::string& a_line
                      , std::string& a_room_name
                      , std::string& a_object_type
@@ -15,8 +15,6 @@ public:
                      , unsigned int& a_power
                      , unsigned int& a_respawn_sec) const = 0;
 };
-
-inline IObjectParser::~IObjectParser(){}
 
 } //d_d
 

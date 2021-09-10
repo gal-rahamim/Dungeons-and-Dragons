@@ -8,11 +8,9 @@ namespace d_d {
 
 class IFightableLoader {
 public:
-    virtual ~IFightableLoader();
+    virtual ~IFightableLoader() = default;
     virtual void Load(const std::string& a_filename, std::unordered_map<std::string, std::shared_ptr<IRoom>>& a_rooms) const = 0;
 };
-
-inline IFightableLoader::~IFightableLoader(){}
 
 } //d_d
 

@@ -8,11 +8,9 @@ namespace d_d {
 
 class IPassageLoader {
 public:
-    virtual ~IPassageLoader();
+    virtual ~IPassageLoader() = default;
     virtual void Load(const std::string& a_filename, std::unordered_map<std::string, std::shared_ptr<IRoom>>& a_rooms) const = 0;
 };
-
-inline IPassageLoader::~IPassageLoader(){}
 
 } //d_d
 

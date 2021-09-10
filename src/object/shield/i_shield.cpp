@@ -7,8 +7,6 @@ IShield::IShield(const std::string& a_name, const std::shared_ptr<IRoom>& a_star
 , m_defense(a_defense) 
 {}
 
-IShield::~IShield(){}
-
 unsigned int IShield::GetDefense() const
 {
     return m_defense;

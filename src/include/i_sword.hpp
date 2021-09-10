@@ -8,7 +8,7 @@ namespace d_d {
 class ISword : public IObject {
 public:
     ISword(const std::string& a_name, unsigned int a_strength, const std::shared_ptr<IRoom>& a_start_pos, unsigned int a_respawn_sec);
-    virtual ~ISword();
+    virtual ~ISword() = default;
     virtual void Describe(std::string& a_description) const = 0;
     unsigned int GetStrength() const;
 
