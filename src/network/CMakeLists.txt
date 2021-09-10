@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.16)
+
+include_directories(
+    include
+    )
+
+add_library(Network 
+    boost_tcp_client.cpp
+    # connection_handler.cpp
+)

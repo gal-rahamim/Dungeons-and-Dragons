@@ -1,0 +1,10 @@
+include_directories(include)
+
+add_subdirectory(network)
+add_subdirectory(object)
+add_subdirectory(fightable)
+add_subdirectory(passage)
+add_subdirectory(room)
+add_subdirectory(loader)
+add_subdirectory(game_player)
+add_subdirectory(game)
