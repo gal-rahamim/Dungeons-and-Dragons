@@ -18,10 +18,11 @@ public:
     ~BoostTCPClient();
 
     void Connect() override;
-    void Write(const std::string& a_msg) override;
-    void Read(std::string& a_msg) override;
+    void Start() override;
 
 private:
+    void write();
+    void read();
     void read_done(error_code a_error, std::size_t a_bytes_read);
     void send_done(error_code a_error, std::size_t a_bytes_read);
 

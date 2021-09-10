@@ -9,8 +9,7 @@ class ITCPClient {
 public: 
     virtual ~ITCPClient() = default;
     virtual void Connect() = 0;
-    virtual void Write(const std::string& a_msg) = 0;
-    virtual void Read(std::string& a_msg) = 0;
+    virtual void Start() = 0;
 };
 
 } //d_d
